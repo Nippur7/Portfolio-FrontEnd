@@ -1,0 +1,15 @@
+
+body {
+    display: grid;
+    min-height: 100vh;
+    place-items: left;
+    font-size: 1.0rem;
+  }
+  
+  h2 {
+    text-align: center;
+  }
+  
+  p {
+    font-size: 0.8rem;
+  }
