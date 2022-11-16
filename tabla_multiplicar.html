@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+<h1 align="center"> Tablas de Multiplicar </h1>
+
+
+<script>
+    function saltarLinea(){
+        document.write("<br>");
+    }
+    
+    function imprimir(variable) {
+        //comentario
+        
+        document.write(variable);
+    }
+    
+    function tabla(multiplicador, limite){
+        var numero = 1;
+        var resultado = 0;
+        while (numero <= limite){
+            resultado = numero * multiplicador;
+            imprimir(multiplicador + " x " + numero + " = " + resultado);
+            saltarLinea();
+            numero ++;
+        }
+
+    }
+    
+    tabla(parseInt(prompt("Ingrese el número para buscar la tabla")),parseInt(prompt("Hasta que número debo buscar la multiplicación?")));
+        
+
+</script>
+
+</html>
