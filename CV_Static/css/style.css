@@ -1,0 +1,317 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&family=Raleway&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: rgb(243,254,245);
+  background: linear-gradient(90deg, rgba(243,254,245,1) 0%, rgba(230,230,242,1) 26%, rgba(243,254,245,1) 100%);
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Raleway", sans-serif;
+}
+
+h1 {
+  font-size: 4em;
+}
+
+h2 {
+  color: rgb(84, 219, 95);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: .5s;
+}
+
+main a:hover{
+  color:rgb(84, 219, 95);
+}
+
+img {
+  max-width: 100%;
+}
+
+/* Header */
+
+header {
+  min-height: 20%;
+  background-image: url(../assets/images/header-back.jpg);
+  background-size: cover;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: rgb(84, 219, 95);
+}
+
+.logoHeader {
+  width: 200px;
+}
+
+ul {
+  display: flex;
+  align-items: center;
+}
+
+ul li {
+  list-style-type: none;
+  margin: 10px;
+  transition: .4s;
+}
+
+ul li:hover{
+  transform: scale(1.2);
+}
+
+.welcome {
+  width: 40%;
+  flex: auto;
+  text-align: center;
+  margin: 0 auto;
+  position: relative;
+  top: 200px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 20px;
+}
+
+i {
+  font-size: 1em;
+  transition: .4s;
+}
+
+i.iconoLogueo {
+  font-size: 2em;
+  margin: 0 10px;
+}
+
+main i:hover{
+  color: rgb(84, 219, 95);
+  transform: scale(1.2);
+}
+
+/* Acerca de mí */
+
+.descripcion {
+  flex-wrap: initial;
+}
+
+.fotoPerfil {
+  width: 20%;
+  border-radius: 50%;
+  position: relative;
+  top: 100%;
+  left: 5%;
+}
+
+.descripcion__info {
+  margin: 100px 20px 20px 20px;
+}
+
+.aboutMe {
+  margin: 50px 20px;
+  display: flex;
+}
+
+
+
+.location {
+  font-size: .9em;
+}
+
+
+/* Experiencia */
+
+.contenedor {
+  margin: 20px;
+  padding: 20px;
+  border: 2px solid black;
+  border-radius: 20px;
+  background-color: #ffffff80;
+  box-shadow: 10px 10px 21px 0px rgba(0, 0, 0, 0.75);
+}
+
+.contenedor__barraTitulo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.contenedor__child {
+  display: flex;
+  margin: 30px 0;
+}
+
+.contenedor img {
+  width: 100px;
+  object-fit: contain;
+  max-height: 100px;
+}
+
+.descripcionPuesto {
+  margin: 0 20px;
+}
+
+.descripcionPuesto__info {
+  display: inline;
+  margin-right: 20px;
+}
+
+.iconosEdicion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center
+}
+
+.iconosEdicion i {
+  margin: 10px 5px;
+  align-self: flex-start;
+}
+
+
+/* Skills */
+
+.skills {
+  margin: 30px 0;
+}
+
+.container {
+  width: 100%;
+  background-color: #ddd;
+  margin: 10px 0;
+}
+
+.skills__child {
+  text-align: right;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: white;
+}
+
+.python {
+  width: 90%;
+  background-color: #04AA6D;
+}
+
+
+.etl {
+  width: 80%;
+  background-color: #2196F3;
+}
+
+
+.pb {
+  width: 90%;
+  background-color: #f44336;
+}
+
+.ml {
+  width: 70%;
+  background-color: #f4d836;
+}
+
+.cc {
+  width: 70%;
+  background-color: #f436e4;
+}
+
+/* Responsive */
+
+@media (max-width: 750px) {
+
+  .fotoPerfil{
+    width: 120px;
+    top: -2px;
+  }
+
+  nav ul li a span{
+    display: none;
+  }
+
+  .welcome{
+    width: 60%;
+    font-size: .5em;
+  }
+
+  h2{
+    font-size: 1.6em;
+  }
+
+  .aboutMe__child p{
+    text-align: justify;
+  }
+
+  .contenedor__child{
+    flex-direction: column;
+    align-items: center
+  }
+
+  .contenedor__child img{
+    width: 150px;
+    margin: 20px;
+  }
+
+  .iconosEdicion{
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 100px){
+  header{
+    min-height: 40vh;
+  }
+  
+  .descripcion{
+    width: 100px;
+    
+  }
+
+  .informacion{
+    width: 50%;
+  }
+  h1{
+    font-size: 2em;;
+  }
+
+  .welcome{
+    top: 100px;
+  }
+  
+  .fotoPerfil{
+    width: 100px;
+    top: -150px;
+  }
+  
+  .logoHeader{
+    display: flexbox;
+  }
+
+  nav{
+    justify-content: center;
+  }
+
+  .iconoLogueo{
+    position: absolute;
+    top: 15px;
+    right: 10px;
+  }
+
+  .aboutMe{
+    display: flexbox;
+    text-align: justify;
+  }
+
+}
