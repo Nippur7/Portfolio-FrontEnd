@@ -19,6 +19,7 @@ import { ExperienciaComponent } from './forms/agregar/experiencia/experiencia.co
 import { UsuarioComponent } from './forms/agregar/usuario/usuario.component';
 import { RecuperarComponent } from './components/users/recuperar/recuperar.component';
 import { environment } from 'src/environments/environment';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 
 
@@ -35,7 +36,8 @@ import { environment } from 'src/environments/environment';
     MainComponent,
     ExperienciaComponent,
     UsuarioComponent,
-    RecuperarComponent
+    RecuperarComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,

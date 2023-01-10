@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/compat/auth'
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { ServicefirebaseService } from 'src/app/service/servicefirebase.service';
 
 @Component({
   selector: 'app-register',
@@ -10,10 +12,13 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class RegisterComponent {
   registrarUsuario : FormGroup;
+  loading: boolean = false;
 
   constructor(private fb:FormBuilder,
     private afAuth: AngularFireAuth,
-    private toastr: ToastrService){
+    private toastr: ToastrService,
+    private router: Router,
+    private firebaseerr: ServicefirebaseService){
     this.registrarUsuario = this.fb.group({
       email: ['', Validators.required],
       password: ['', Validators.required],
@@ -29,28 +34,22 @@ export class RegisterComponent {
 
     if(password !== repetirpass){
       this.toastr.error('Contraseñas no coinciden','Error en Password');
-      return
-    }
-
-    this.afAuth.createUserWithEmailAndPassword(email, password).then((user) =>{
+      return;
+    }    
+    this.loading = true;
+    this.afAuth
+    .createUserWithEmailAndPassword(email, password)
+    .then((user) =>{
+      this.router.navigate(['/login'])
+      this.loading = false;
       this.toastr.success(email, 'Creado');
     }).catch((error) => {
       console.log(error);
-      this.toastr.error(this.firebaseerror(error.code), 'Error');
+      this.loading = false;
+      this.toastr.error(this.firebaseerr.firebaseerror(error.code), 'Error');
       
     })
   }
-  firebaseerror(code: string){
-    switch(code){
-      case 'auth/email-already-in-use':
-        return 'Email ya existe'
-      case 'auth/invalid-email':
-        return 'Email inválido'
-      case 'auth/weak-password':
-        return 'Contraseña muy débil'  
-      default:
-        return 'Error desconocido'
-    }
-  }
+
 
 }
