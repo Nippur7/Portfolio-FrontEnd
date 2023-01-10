@@ -40,9 +40,10 @@ export class RegisterComponent {
     this.afAuth
     .createUserWithEmailAndPassword(email, password)
     .then((user) =>{
-      this.router.navigate(['/login'])
+      
       this.loading = false;
       this.toastr.success(email, 'Creado');
+      this.verificarCorreo();
     }).catch((error) => {
       console.log(error);
       this.loading = false;
@@ -51,5 +52,13 @@ export class RegisterComponent {
     })
   }
 
+  verificarCorreo(){
+    this.afAuth.currentUser.then(user => user?.sendEmailVerification())
+                .then(()=>{
+                  this.router.navigate(['/login']);
+                  this.toastr.warning('Correo de verificación enviado');
+
+                });
+  }
 
 }

@@ -36,8 +36,16 @@ export class LoginComponent {
     console.log(email, pass);
     this.afAuth.signInWithEmailAndPassword(email,pass)
     .then((user)=>{
-      this.router.navigate(['/main'])
+      //this.router.navigate(['/main'])
       console.log(user);
+      if(user.user?.emailVerified){
+        this.router.navigate(['/main'])
+      } else {
+        this.toastr.warning('Revise su correo, debe validarlo..!!');
+        this.loading = false;
+      }
+      
+      
     }).catch((error)=>{
       this.loading = false;
       console.log(error)
