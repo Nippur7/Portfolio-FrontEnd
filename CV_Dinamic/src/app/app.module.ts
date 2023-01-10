@@ -1,8 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
+import { AngularFireModule } from '@angular/fire/compat'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+
 import { AppComponent } from './app.component';
 import { SliderEdComponent } from './components/slider-ed/slider-ed.component';
 import { SliderExComponent } from './components/slider-ex/slider-ex.component';
@@ -13,6 +17,11 @@ import { RegisterComponent } from './components/users/register/register.componen
 import { MainComponent } from './components/main/main.component';
 import { ExperienciaComponent } from './forms/agregar/experiencia/experiencia.component';
 import { UsuarioComponent } from './forms/agregar/usuario/usuario.component';
+import { RecuperarComponent } from './components/users/recuperar/recuperar.component';
+import { environment } from 'src/environments/environment';
+
+
+
 
 @NgModule({
   declarations: [
@@ -25,12 +34,17 @@ import { UsuarioComponent } from './forms/agregar/usuario/usuario.component';
     RegisterComponent,
     MainComponent,
     ExperienciaComponent,
-    UsuarioComponent
+    UsuarioComponent,
+    RecuperarComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    ReactiveFormsModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

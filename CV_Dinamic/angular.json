@@ -35,7 +35,8 @@
               "node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "node_modules/font-awesome/css/font-awesome.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
@@ -59,7 +60,13 @@
                   "maximumError": "4kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "apps/CV_Dinamic/src/environments/environment.ts",
+                  "with": "apps/CV_Dinamic/src/environments/environment.prod.ts"
+                }
+              ]
             },
             "development": {
               "buildOptimizer": false,
