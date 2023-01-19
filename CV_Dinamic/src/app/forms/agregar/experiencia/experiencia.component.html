@@ -1,1 +1,44 @@
-<p>experiencia works!</p>
+<ng-template #content let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Modificar Experiencia</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<form [formGroup]="experienciaLabForm" >
+			<div class="mb-3">
+				<label>
+					Imagen
+					<input type="text" formControlName="imagen">
+				</label>
+				<label>
+					Lugar
+					<input type="text" formControlName="lugar">
+				</label>
+				<label>
+					Inicio
+					<input type="date" formControlName="inicio" ngbDatepicker name="dp" #dp="ngbDatepicker">
+				</label>
+				<label>
+					Fin
+					<input type="date" formControlName="fin" ngbDatepicker name="dp2" #dp2="ngbDatepicker">
+				</label>
+				<label>
+					Observaciones
+					<input type="text" formControlName="obs">
+				</label>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+	</div>
+</ng-template>
+
+
+<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button>
+
+<hr />
+
+<pre>{{ closeResult }}</pre>
+<!--
+-->

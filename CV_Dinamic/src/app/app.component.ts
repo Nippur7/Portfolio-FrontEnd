@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MasterserviceService } from './service/masterservice.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'CV_Dinamic';
+
+//  constructor(masterservice: MasterserviceService){
+//    masterservice.loggingObservableData ={logging:true, user: 'pepito'}
+
+//  }
+  
 }

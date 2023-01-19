@@ -27,7 +27,7 @@
 
   </head>
 
-<body>
+
     <header id="welcome-section">
         <nav id="navbar">
             <img src="../assets/icons/APLogo-20-20.png" alt="Logo de Argentina programa" class="logoHeader">
@@ -52,6 +52,7 @@
             <h2>Data Scientist</h2>
         </div>
     </header>
+<body>
     <main>
         <section class="informacion">
             <div class="descripcion">
@@ -79,7 +80,7 @@
                         y sin la función de deshacer, en el modo para expertos
                         .</p>
                 </div>
-                <button *ngIf="loggeado" class="btn btn-outline-primary">
+                <button (click)="modificarAbout()" *ngIf="loggeado" class="btn btn-outline-primary" data-bs-toggle="modal">
                     <i class="fa-solid fa-pen"></i>
                 </button>
             </div>

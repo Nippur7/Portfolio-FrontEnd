@@ -1,14 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&family=Raleway&display=swap");
-
+@import '~bootstrap/dist/css/bootstrap.min.css';
 * {
-  margin: 0;  
+  //margin: 0;  
   box-sizing: content-box;
   font-family: "Poppins", sans-serif;
 }
 
 body {
+  //margin-top: 200px;
   background: rgb(243,254,245);
   background: linear-gradient(90deg, rgba(243,254,245,1) 0%, rgba(230,230,242,1) 26%, rgba(243,254,245,1) 100%);
+}
+
+main {
+  margin-top: 250px;
 }
 
 h1,
@@ -42,9 +47,13 @@ img {
 /* Header */
 
 header {
-  min-height: 20%;
+  position: fixed;
+  top: 0;
+  height: 250px;
+  width: 100%;
   background-image: url(../../../assets/images/header-back.jpg);
   background-size: cover;
+  z-index: 9;
 }
 
 nav {
@@ -147,6 +156,8 @@ main i:hover{
   }
 }
 
+
+
 /* Acerca de mí */
 
 .descripcion {
@@ -166,6 +177,7 @@ main i:hover{
   position: relative;  
   top: 20px;
   left: 15px;
+  z-index: 1;
 }
 
 .descripcion__info {
@@ -327,7 +339,7 @@ main i:hover{
 
 @media (max-width: 500px){
   header{
-    min-height: 40vh;
+    height: 200px;
   }
   
   .descripcion{

@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AngularFireModule } from '@angular/fire/compat'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { HttpClientModule } from '@angular/common/http'
 
 import { AppComponent } from './app.component';
 import { SliderEdComponent } from './components/slider-ed/slider-ed.component';
@@ -20,6 +21,8 @@ import { UsuarioComponent } from './forms/agregar/usuario/usuario.component';
 import { RecuperarComponent } from './components/users/recuperar/recuperar.component';
 import { environment } from 'src/environments/environment';
 import { SpinnerComponent } from './components/spinner/spinner.component';
+import { MasterserviceService } from './service/masterservice.service';
+
 
 
 
@@ -44,11 +47,13 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     AppRoutingModule,
     NgbModule,
     ReactiveFormsModule,
+    //MasterserviceService,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     BrowserAnimationsModule, // required animations module
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    HttpClientModule
   ],
-  providers: [],
+  providers: [MasterserviceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

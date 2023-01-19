@@ -1,0 +1,45 @@
+@import '~bootstrap/dist/css/bootstrap.min.css';
+header {
+    min-height: 20%;
+    background-image: url(../../../assets/images/header-back.jpg);
+    background-size: cover;
+  }
+  
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: rgb(84, 219, 95);
+  }
+  
+  .logoHeader {
+    width: 200px;
+  }
+  
+  ul {
+    display: flex;
+    align-items: center;
+  }
+  
+  ul li {
+    list-style-type: none;
+    margin: 10px;
+    transition: .4s;
+  }
+  
+  ul li:hover{
+    transform: scale(1.2);
+  }
+  
+  .welcome {
+    width: 40%;
+    flex: auto; 
+    text-align: center;
+    margin: 0 auto;
+    position: relative;
+    top: 15%;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px;
+  }
