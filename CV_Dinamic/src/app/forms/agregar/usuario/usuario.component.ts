@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormArray, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { Usuario } from 'src/app/Modelo/usuario';
+import { Usuario } from '../../../Modelo/usuario';
+
+
 import { ServicehttpService } from 'src/app/service/servicehttp.service';
+import { MasterserviceService } from 'src/app/service/masterservice.service';
 
 @Component({
   selector: 'app-usuario',
@@ -14,22 +17,32 @@ export class UsuarioComponent implements OnInit {
 
   closeResult = '';
 
-  userForm = new FormGroup({
-		
-			idUser: new FormControl('',[Validators.required]),
-			apellido: new FormControl('',[Validators.required]),
-			nombre: new FormControl('',[Validators.required]),
-			email: new FormControl('',[Validators.required]),
-			password: new FormControl('',[Validators.required]),			
-			ingreso: new FormControl('',[Validators.required]),
-			aboutme: new FormControl('',[Validators.required]),			
-			imagen: new FormControl('',[Validators.required]),	
-		
-  })
+  //userForm : FormGroup; 
 
   usuarios? : Usuario[];
+  usuario? : Usuario;
+  iduser : number = -1;
+  //errorStatus : number =0
+  //id_user: number = 0;
 	constructor(private modalService: NgbModal,
-		private serviceHttp: ServicehttpService) {}
+		private serviceHttp: ServicehttpService,
+		private Mservice : MasterserviceService
+		//private fb: FormBuilder
+		) {
+			
+			//this.userForm = new FormGroup({
+		
+			//	idUser: new FormControl(0,[Validators.required]),
+			//	apellido: new FormControl('',[Validators.required]),
+			//	nombre: new FormControl('',[Validators.required]),
+			//	email: new FormControl('',[Validators.required]),
+			//	password: new FormControl('',[Validators.required]),			
+			//	ingreso: new FormControl('',[Validators.required]),
+			//	aboutme: new FormControl('',[Validators.required]),			
+			//	imagen: new FormControl('',[Validators.required]),	
+			
+	  }
+		
 
 	open(content: any) {
 		this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
@@ -40,14 +53,13 @@ export class UsuarioComponent implements OnInit {
 				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
 			},
 		);
+		//this.userForm.value.idUser = this.usuario?.id
 	}
 
-	ngOnInit(){
-		this.serviceHttp.getPersonas()
-		.subscribe(data=>{
-			this.usuarios = data;
-		});
-		console.log(this.usuarios);
+	ngOnInit(){		
+		this.Mservice.loggingObservable.subscribe(datos=>{
+		this.usuario = datos.userSql;		
+		})
 	}
 
 	private getDismissReason(reason: any): string {
@@ -58,6 +70,13 @@ export class UsuarioComponent implements OnInit {
 		} else {
 			return `with: ${reason}`;
 		}
+	}
+
+	public editUsuario(data: any){
+		this.serviceHttp.editarUsuario(data);
+		
+		this.modalService.dismissAll();
+
 	}
 
 }

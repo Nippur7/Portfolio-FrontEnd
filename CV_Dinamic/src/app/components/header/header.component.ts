@@ -30,7 +30,7 @@ export class HeaderComponent {
           this.datauser = user;
           //this.Mservice.setdatauser(user)
           this.loggeado = true;
-          this.Mservice.loggingObservableData = {user: user, logging: true};
+          this.Mservice.loggingObservableData = {userFireb: user, logging: true, userSql:''};
           //this.Mservice.loggingObservableData.logging = true;
           this.data$ = this.Mservice.loggingObservable;
           console.log(this.Mservice.loggingObservable)

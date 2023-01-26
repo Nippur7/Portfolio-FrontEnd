@@ -3,7 +3,8 @@ import { BehaviorSubject } from 'rxjs';
 
 export interface IUser {
   logging: boolean;
-  user: any;
+  userFireb: any;
+  userSql: any;
 }
 
 @Injectable({
@@ -12,7 +13,7 @@ export interface IUser {
 export class MasterserviceService {
   private logginObservablePrivate: BehaviorSubject<IUser> = 
     new BehaviorSubject<IUser>(
-      { logging: false, user: '' }
+      { logging: false, userFireb: '', userSql: '' }
     );
 
     get loggingObservable(){

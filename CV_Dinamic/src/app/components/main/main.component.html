@@ -48,7 +48,7 @@
 
         </nav>
         <div class="welcome">
-            <h1>Carlos Matich</h1>
+            <h1>{{dataSql.nombre}} {{dataSql.apellido}}</h1>
             <h2>Data Scientist</h2>
         </div>
     </header>
@@ -60,7 +60,7 @@
                 <img src="./assets/images/profile_pic_small.jpg" alt="Carlos Matich, Data Scientist"
                     class="fotoPerfil">
                 <div class="descripcion__info">
-                    <h2>Carlos Matich</h2>
+                    <h2>{{ dataSql.nombre }} {{dataSql.apellido}}</h2>
                     <h3>Data Scientist</h3>
                     <h3 class="location">Jujuy, Argentina</h3>
                 </div>
@@ -68,21 +68,13 @@
             <div class="aboutMe">
                 <div class="aboutMe__child">
                     <h3>Sobre mí</h3>
-                    <p>Desde niño uno de mis hobbies son 
-                        los videojuegos. Desde ahí mi pasión por
-                        la programación creció. Hoy mi horizonte es el 
-                        deseo seguir en este camino
-                        interminable del mundo IT. Y aunque
-                        suene pretencioso quiero expandirlo.
-                        Siempre en busqueda de nuevos skills y
-                        mejorar mis prácticas.
-                        La vida es como un videogame, con más reglas 
-                        y sin la función de deshacer, en el modo para expertos
-                        .</p>
+                    <p>{{dataSql.aboutme}}</p>
+                        
                 </div>
-                <button (click)="modificarAbout()" *ngIf="loggeado" class="btn btn-outline-primary" data-bs-toggle="modal">
+                <!--<button (click)="modificarAbout()" *ngIf="loggeado" class="btn btn-outline-primary" data-bs-toggle="modal">
                     <i class="fa-solid fa-pen"></i>
-                </button>
+                </button>-->
+                <app-usuario *ngIf="loggeado"></app-usuario>
             </div>
         </section>
         <section class="contenedor">
@@ -92,15 +84,15 @@
                     <i class="fa-solid fa-plus"></i>
                 </button>
             </div>
-            <div class="contenedor__child">
+            <div *ngFor="let exp of experienciaSql; let i = index" class="contenedor__child">
                 <img src="./assets/icons/demisa.png" alt="Demisa">
                 <div class="descripcionPuesto">
-                    <h3>Data Warehousing</h3>
-                    <h4 class="descripcionPuesto__info">Demisa Construcciones S.A.</h4>
-                    <h5 class="descripcionPuesto__info">2009 - 2021</h5>
-                    <p>MANTENIMIENTO DE SISTEMAS. Administración de Base de Datos. 
-                        MANTENIMIENTO DE SISTEMAS, REDES, SOFTWARE
-                        Y HARDWARE. MANTENIMIENTO DE BASE DE DATOS MSSQL, TANGO</p>
+                    <h3>{{detalleSql[i].puesto}}</h3>
+                    <h4 class="descripcionPuesto__info">{{exp.lugar}}</h4>
+                    <h5 class="descripcionPuesto__info">{{exp.inicio | date:'yyyy'}} - {{exp.fin | date:'yyyy'}}</h5>
+                    <p>                        
+                        Descripcion: {{detalleSql[i].descripcion}}
+                    </p>
                 </div>
 
                 <div *ngIf="loggeado" class="iconosEdicion">
@@ -112,7 +104,8 @@
                     </button>
                 </div>                
             </div>
-            <div class="contenedor__child">
+            <!--
+                <div class="contenedor__child">
                 <img src="./assets/icons/demisa.png" alt="Demisa">    
                 <div class="descripcionPuesto">
                     <h3>SISTEMA TANGO GESTIÓN</h3>
@@ -151,7 +144,7 @@
                   <i class="fa-solid fa-pen"></i>
                   <i class="fa-solid fa-trash"></i>
               </div>
-          </div>
+          </div> 
         </section>
         <section class="contenedor">
             <div class="contenedor__barraTitulo">
@@ -245,7 +238,7 @@
                     <i class="fa-solid fa-pen"></i>
                     <i class="fa-solid fa-trash"></i>
                 </div>
-            </div>
+            </div> -->
         </section>
         <section class="contenedor">
             <div class="contenedor__barraTitulo">
@@ -253,19 +246,26 @@
                 <button *ngIf="loggeado"><i class="fa-solid fa-plus"></i></button>
             </div>
             <div class="skills">
-                <div *ngIf="loggeado" class="iconosEdicion">
+                <div>
                     <h3>Python</h3>
-                    <div>
+                    <div class="progress form-group">
+                        <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" aria-valuemin="0.0" aria-valuemax="100.0" role="progressbar" [style.width]="'90.0%'">
+                             Python 90.0%
+                        </div>
+                    </div>
+                    <div *ngIf="loggeado" class="iconosEdicion">
                         <i class="fa-solid fa-pen"></i>
                         <i class="fa-solid fa-trash"></i>
                     </div>
                 </div>
-                <div class="container">
+                <!--
+                    <div class="container">
                     <div class="skills__child python">90%</div>
                 </div>
-                <div *ngIf="loggeado" class="iconosEdicion">
+                
+                <div>
                     <h3>ETL - Web Scapping</h3>
-                    <div>
+                    <div *ngIf="loggeado" class="iconosEdicion">
                         <i class="fa-solid fa-pen"></i>
                         <i class="fa-solid fa-trash"></i>
                     </div>
@@ -273,9 +273,9 @@
                 <div class="container">
                     <div class="skills__child etl">80%</div>
                 </div>
-                <div *ngIf="loggeado" class="iconosEdicion">
+                <div>
                     <h3>Power Bi</h3>
-                    <div>
+                    <div *ngIf="loggeado" class="iconosEdicion">
                         <i class="fa-solid fa-pen"></i>
                         <i class="fa-solid fa-trash"></i>
                     </div>
@@ -283,9 +283,9 @@
                 <div class="container">
                     <div class="skills__child pb">90%</div>
                 </div>
-                <div *ngIf="loggeado" class="iconosEdicion">
+                <div>
                     <h3>Machine Learning</h3>
-                    <div>
+                    <div *ngIf="loggeado" class="iconosEdicion">
                         <i class="fa-solid fa-pen"></i>
                         <i class="fa-solid fa-trash"></i>
                     </div>
@@ -293,17 +293,19 @@
                 <div class="container">
                     <div class="skills__child ml">70%</div>
                 </div>
-                <div *ngIf="loggeado" class="iconosEdicion">
+                <div>
                     <h3>Cloud Computing</h3>
-                    <div>
+                    <div *ngIf="loggeado" class="iconosEdicion">
                         <i class="fa-solid fa-pen"></i>
                         <i class="fa-solid fa-trash"></i>
                     </div>
                 </div>
                 <div class="container">
                     <div class="skills__child cc">70%</div>
-                </div>
+                </div>-->
+                
             </div>
+            
         </section>
         <section class="contenedor">
             <div class="contenedor__barraTitulo">

@@ -1,57 +1,71 @@
 <ng-template #content let-modal>
 	<div class="modal-header">
-		<h4 class="modal-title" id="modal-basic-title">Modificar Experiencia</h4>
+		<h4 class="modal-title" id="modal-basic-title">Datos del Usuario</h4>
 		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
 	</div>
-	<div class="modal-body">
-		<form [formGroup]="userForm" >
+	<div class="modal-body" *ngIf="usuario">
+		<form #usuarioForm ="ngForm">
 			<div class="mb-3">
 				<label>
 					Id del usuario
-					<input type="number" formControlName="idUser">
+					
+					<input #modelID [(ngModel)]="usuario.idusuario" type="number" [ngModelOptions]="{standalone: true}">
+					
+					<!--<input type="number" formControlName="idUser">-->
 				</label>
 				<label>
 					Apellido
-					<input type="text" formControlName="apellido">
+					<!--<input type="text" formControlName="apellido">-->
+					<input #modelID [(ngModel)]="usuario.apellido" type="string" [ngModelOptions]="{standalone: true}">
 				</label>
 				<label>
 					Nombre
-					<input type="text" formControlName="nombre">
+					<!--<input type="text" formControlName="nombre">-->
+					<input #modelID [(ngModel)]="usuario.nombre" type="string" [ngModelOptions]="{standalone: true}">
 				</label>
 				<label>
 					Correo
-					<input type="email" formControlName="email">
+					<!--<input type="email" formControlName="email">-->
+					<input #modelID [(ngModel)]="usuario.email" type="email" [ngModelOptions]="{standalone: true}">
 				</label>
 				<label>
 					Contraseña
-					<input type="password" formControlName="password">
+					<!--<input type="password" formControlName="password">-->
+					<input #modelID [(ngModel)]="usuario.password" type="password" [ngModelOptions]="{standalone: true}">
 				</label>
                 <label>
 					Fecha de Ingreso
-					<input type="text" formControlName="ingreso">                    
+					<!--<input type="text" formControlName="ingreso">                    -->
+					<input #modelID [(ngModel)]="usuario.ingreso" type="date" [ngModelOptions]="{standalone: true}">
 				</label>
                 <label>
 					Acerca de mí
-					<input type="text" formControlName="aboutme">
+					<!--<input type="text" formControlName="aboutme">-->
+					<input #modelID [(ngModel)]="usuario.aboutme" type="string" [ngModelOptions]="{standalone: true}">
 				</label>
                 <label>
 					Foto
-					<input type="text" formControlName="imagen">
+					<input #modelID [(ngModel)]="usuario.picture" type="string" [ngModelOptions]="{standalone: true}">
+					<!--<input type="text" formControlName="imagen"> -->
 				</label>
-			</div>
+			</div>			
 		</form>
 	</div>
 	<div class="modal-footer">
-		<button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+		<button type="button" class="btn btn-outline-primary" (click)="editUsuario(usuario)">
+			Guardar Cambios
+		</button>
 	</div>
 </ng-template>
 
 
-<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button>
-
+<button class="btn btn-lg btn-outline-primary" (click)="open(content)">
+	<i class="fa-solid fa-pen"></i>
+</button>
+<!--
 <hr />
 
 <pre>{{ closeResult }}</pre>
-<pre>{{usuarios | json}}</pre>
-<!--
+<pre>{{usuario | json}}</pre>
+
 -->

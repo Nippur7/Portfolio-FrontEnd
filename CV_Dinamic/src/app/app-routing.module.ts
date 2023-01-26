@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'recuperar', component: RecuperarComponent},
   { path: 'sliderex', component: SliderExComponent},
   { path: 'slidered', component: SliderEdComponent},
-  { path: 'usuario', component: UsuarioComponent},
+  { path: 'experiencia', component: ExperienciaComponent},
   { path: 'main', component: MainComponent},
   { path: '', redirectTo: '/main', pathMatch: 'full'},
   { path: '**', component: MainComponent}

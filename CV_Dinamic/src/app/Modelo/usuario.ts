@@ -1,5 +1,5 @@
 export class Usuario{
-    id: number = 0;
+    idusuario: number = 0;
     apellido: String = '';
     nombre: String = '';
     email: String = '';
