@@ -35,8 +35,21 @@ export class ServicehttpService {
     .pipe(catchError(this.errorHandler))
   }
 
-  public editarUsuario(user:Usuario){
-    this.http.put<HttpErrorResponse>(this.Url+"/usuario/editar", user)
+  public editarUsuario(user:Usuario, file : File){
+    const formData = new FormData();
+    //console.log(user.email);
+    //console.log(file.name);
+    formData.append('userJson', JSON.stringify(user));
+    formData.append('foto', file);
+    //formData.forEach(item =>{
+    //  console.log(item);
+    //})
+    // console.log(formData.get('userJson'));
+    this.http.post<HttpErrorResponse>(this.Url+"/usuario/editar", formData,
+    // {
+    //   headers: { 'Content-Type': 'multipart/form-data' }
+    // }
+      )
       //.pipe(catchError(this.errorHandler)) 
         .subscribe(() =>{    
         },error => {this.errorHandler(error)

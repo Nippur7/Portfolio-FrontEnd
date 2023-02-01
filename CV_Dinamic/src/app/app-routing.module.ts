@@ -13,7 +13,7 @@ import { UsuarioComponent } from './forms/agregar/usuario/usuario.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},
-  { path: 'recuperar', component: RecuperarComponent},
+  { path: 'usuario', component: UsuarioComponent},
   { path: 'sliderex', component: SliderExComponent},
   { path: 'slidered', component: SliderEdComponent},
   { path: 'experiencia', component: ExperienciaComponent},

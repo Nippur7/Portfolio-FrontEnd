@@ -6,6 +6,7 @@ import { Usuario } from '../../../Modelo/usuario';
 
 import { ServicehttpService } from 'src/app/service/servicehttp.service';
 import { MasterserviceService } from 'src/app/service/masterservice.service';
+import { UploadimageService } from 'src/app/service/uploadimage.service';
 
 @Component({
   selector: 'app-usuario',
@@ -20,16 +21,19 @@ export class UsuarioComponent implements OnInit {
   //userForm : FormGroup; 
 
   usuarios? : Usuario[];
-  usuario? : Usuario;
+  usuario : Usuario;
   iduser : number = -1;
+  preview: any;
+  archivo: any;
   //errorStatus : number =0
   //id_user: number = 0;
 	constructor(private modalService: NgbModal,
 		private serviceHttp: ServicehttpService,
-		private Mservice : MasterserviceService
+		private Mservice : MasterserviceService,
+		private conversor : UploadimageService
 		//private fb: FormBuilder
 		) {
-			
+			this.usuario = new Usuario;
 			//this.userForm = new FormGroup({
 		
 			//	idUser: new FormControl(0,[Validators.required]),
@@ -72,11 +76,24 @@ export class UsuarioComponent implements OnInit {
 		}
 	}
 
-	public editUsuario(data: any){
-		this.serviceHttp.editarUsuario(data);
+	public editUsuario(data: any, image: File){
+		this.serviceHttp.editarUsuario(data, image);
 		
 		this.modalService.dismissAll();
 
+	}
+
+	public convertirFile(event: any) :any {
+		//this.conversor.extraerBase64(event);		
+		this.archivo = event.target.files[0];
+		this.conversor.capturarFile(event)
+		.then((respuesta: any) =>{
+			this.preview = respuesta;
+			//console.log(respuesta)
+			this.usuario.picture = this.archivo.name;
+			//console.log(this.archivo)
+		})
+		//console.log(this.preview)
 	}
 
 }

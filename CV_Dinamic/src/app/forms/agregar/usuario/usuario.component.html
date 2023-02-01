@@ -47,12 +47,19 @@
 					Foto
 					<input #modelID [(ngModel)]="usuario.picture" type="string" [ngModelOptions]="{standalone: true}">
 					<!--<input type="text" formControlName="imagen"> -->
+					<div>
+						<input (change)="convertirFile($event)" type="file">
+					</div>
+					<div *ngIf="preview">
+						<img width="100px" [src]="preview" alt="">
+					</div>
+					
 				</label>
 			</div>			
 		</form>
 	</div>
 	<div class="modal-footer">
-		<button type="button" class="btn btn-outline-primary" (click)="editUsuario(usuario)">
+		<button type="button" class="btn btn-outline-primary" (click)="editUsuario(usuario,archivo)">
 			Guardar Cambios
 		</button>
 	</div>
