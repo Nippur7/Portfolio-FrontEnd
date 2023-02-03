@@ -87,7 +87,7 @@
             <div *ngFor="let exp of experienciaSql; let i = index" class="contenedor__child">
                 <img src="./assets/icons/demisa.png" alt="Demisa">
                 <div class="descripcionPuesto">
-                    <h3>{{detalleSql[i].puesto}}</h3>
+                    <h3 *ngIf="detalleSql[i].puesto">{{detalleSql[i].puesto}}</h3>
                     <h4 class="descripcionPuesto__info">{{exp.lugar}}</h4>
                     <h5 class="descripcionPuesto__info">{{exp.inicio | date:'yyyy'}} - {{exp.fin | date:'yyyy'}}</h5>
                     <p>                        

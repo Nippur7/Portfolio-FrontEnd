@@ -10,6 +10,8 @@ import { ServicehttpService } from 'src/app/service/servicehttp.service';
 import { toInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
 import { experiencia } from 'src/app/Modelo/experiencia';
 import { detalle } from 'src/app/Modelo/detalle';
+import { tipo } from 'src/app/Modelo/tipo';
+import { DictionaryComponent } from 'src/app/Modelo/diccionario';
 
 
 @Component({
@@ -23,6 +25,8 @@ loggeado :boolean = false;
 public dataSql: Usuario = new Usuario;
 public experienciaSql: experiencia[] = [];
 public detalleSql: detalle[] = [];
+public tipoSql: tipo[] = [];
+//public experienciaTipo : DictionaryComponent = new DictionaryComponent; 
 
 @Output()
 public datauserlog$: Observable<IUser>;
@@ -33,8 +37,60 @@ private id : number = -1;
     private router: Router,
     private toastr: ToastrService,
     private Mservice : MasterserviceService,
-    private httpService : ServicehttpService){
+    private httpService : ServicehttpService,
+    private dict : DictionaryComponent
+    ){
       this.datauserlog$ = Mservice.loggingObservable;
+      //dict
+      this.Mservice.loggingObservable.subscribe(exp =>{
+        if(exp.userSql.idusuario != undefined){
+          this.experienciaSql.length = 0;
+          this.detalleSql.length = 0;
+          this.httpService.getExperiencia(exp.userSql.idusuario)
+            //.subscribe(value=>{
+                //this.experienciaSql = value;
+                //console.log(this.experienciaSql)
+            //})
+            .forEach(x => {
+              // console.log(x)
+              if (x != undefined){
+                x.forEach( exp =>{
+                
+                  this.experienciaSql.push(exp);
+                  // console.log(this.experienciaSql)
+                  this.httpService.getDetalle(exp.iddetalles)
+                    .subscribe(det =>{
+                      
+                      this.detalleSql.push(det)
+                      //console.log(det)
+                    })
+                })
+              }else{
+                console.log("experiencia no definida")
+              }
+            })
+            // console.log(this.detalleSql);
+        }else{      
+          console.log("error atrapado");
+        }
+      });
+      //  bloque que define el diccionario junto con la experiencia
+      this.httpService.getTipo().subscribe(t =>{
+        this.tipoSql = t
+        //console.log(t[1])
+        //  t.forEach(ti =>{
+          // console.log(ti.idtipo.toString())
+          //console.log(this.experienciaSql[0].tipo.toString()); 
+        
+          // if(ti.idtipo.toString() === this.experienciaSql[0].tipo.toString()){
+          //     this.dict.add(ti.idtipo.toString(),this.experienciaSql[0])
+          //   }
+            
+        //  })
+               
+      });
+      //console.log(this.experienciaSql)
+      console.log(this.dict)
   }
 
   ngOnInit(): void {
@@ -87,31 +143,57 @@ private id : number = -1;
       }    
     })
     //carga de experiencia y otros componentes
-    this.Mservice.loggingObservable.subscribe(exp =>{
-      if(exp.userSql.idusuario != undefined){
-        this.experienciaSql.length = 0;
-        this.detalleSql.length = 0;
-        this.httpService.getExperiencia(exp.userSql.idusuario)
-          //.subscribe(value=>{
-              //this.experienciaSql = value;
-              //console.log(this.experienciaSql)
-          //})
-          .forEach(x => {
-            x.forEach( exp =>{
-              this.experienciaSql.push(exp);
-              console.log(this.experienciaSql)
-              this.httpService.getDetalle(exp.iddetalles)
-                .subscribe(det =>{
-                  this.detalleSql.push(det)
-                })
-            })
-          })
-          console.log(this.detalleSql);
-      }else{      
-        console.log("error atrapado");
-      }
-    })
-    //console.log(this.experienciaSql)
+
+    // this.Mservice.loggingObservable.subscribe(exp =>{
+    //   if(exp.userSql.idusuario != undefined){
+    //     this.experienciaSql.length = 0;
+    //     this.detalleSql.length = 0;
+    //     this.httpService.getExperiencia(exp.userSql.idusuario)
+    //       //.subscribe(value=>{
+    //           //this.experienciaSql = value;
+    //           //console.log(this.experienciaSql)
+    //       //})
+    //       .forEach(x => {
+    //         // console.log(x)
+    //         if (x != undefined){
+    //           x.forEach( exp =>{
+              
+    //             this.experienciaSql.push(exp);
+    //             // console.log(this.experienciaSql)
+    //             this.httpService.getDetalle(exp.iddetalles)
+    //               .subscribe(det =>{
+                    
+    //                 this.detalleSql.push(det)
+    //               })
+    //           })
+    //         }else{
+    //           console.log("experiencia no definida")
+    //         }
+    //       })
+    //       // console.log(this.detalleSql);
+    //   }else{      
+    //     console.log("error atrapado");
+    //   }
+    // })
+    // //  bloque que define el diccionario junto con la experiencia
+    // this.httpService.getTipo().subscribe(t =>{
+    //   this.tipoSql = t
+    //   t.forEach(type =>{
+    //     // var key :String = type.descripcion
+    //     // var dict ={};
+    //     // this.experienciaTipo['primera'] = '';
+    //     // dict= []
+    //     // console.log(key)
+    //     this.dict.add(type.idtipo.toString(),type.descripcion)
+    //       if(type.idtipo.toString() === this.experienciaSql[0].tipo.toString()){
+    //         this.dict.add(type.idtipo.toString(),this.experienciaSql[0])
+    //       }
+    
+    //   })
+    //   console.log(this.experienciaSql)
+    //   console.log(this.dict)
+    // });
+
   }
 
   logOut(){
@@ -142,4 +224,22 @@ private id : number = -1;
     console.log("mod acerca de mesmo");
 
   }
+
+  cargarDic(t:tipo[],exp :experiencia[], dicci:DictionaryComponent){
+    
+    for (var ii in t){
+      for (var i in exp){
+        if (t[ii].idtipo.toString() === exp[i].tipo.toString()){
+          dicci.add(t[ii].idtipo.toString(),exp[i])
+          console.log(exp[i])
+        }else{
+        console.log(exp[i].tipo.toString())
+        }
+      }
+    }   
+
+  }
+  
+
 }
+

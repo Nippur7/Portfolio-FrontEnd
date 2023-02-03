@@ -22,6 +22,7 @@ import { RecuperarComponent } from './components/users/recuperar/recuperar.compo
 import { environment } from 'src/environments/environment';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { MasterserviceService } from './service/masterservice.service';
+import { DictionaryComponent } from './Modelo/diccionario';
 
 
 
@@ -54,7 +55,7 @@ import { MasterserviceService } from './service/masterservice.service';
     HttpClientModule,
     FormsModule
   ],
-  providers: [MasterserviceService],
+  providers: [MasterserviceService, DictionaryComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

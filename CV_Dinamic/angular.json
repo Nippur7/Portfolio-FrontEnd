@@ -51,20 +51,20 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "4mb",
+                  "maximumError": "6mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "600kb",
+                  "maximumError": "500kb"
                 }
               ],
               "outputHashing": "all",
               "fileReplacements": [
                 {
-                  "replace": "apps/CV_Dinamic/src/environments/environment.ts",
-                  "with": "apps/CV_Dinamic/src/environments/environment.prod.ts"
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
                 }
               ]
             },
@@ -81,6 +81,9 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "CV_Dinamic:build"
+          },
           "configurations": {
             "production": {
               "browserTarget": "CV_Dinamic:build:production"

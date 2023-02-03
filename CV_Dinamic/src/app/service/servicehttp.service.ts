@@ -6,6 +6,7 @@ import { catchError } from 'rxjs/operators';
 import { throwError as observableThrowError } from 'rxjs';
 import { experiencia } from '../Modelo/experiencia';
 import { detalle } from '../Modelo/detalle';
+import { tipo } from '../Modelo/tipo';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,8 @@ export class ServicehttpService {
   constructor(private http: HttpClient,
     private toastr: ToastrService) { }
 
-  Url='http://localhost:8081';
+  //Url='http://localhost:8081';
+  Url='https://cv-argprog4-nippur7.koyeb.app'
 
   //Métodos para Usuario
    public getUsuarios(){
@@ -69,6 +71,12 @@ export class ServicehttpService {
   public getDetalle(id:number){
     return this.http.get<detalle>(this.Url+"/detalle/buscar/"+id)
     .pipe(catchError(this.errorHandler))
+  }
+
+  //Método para Tipo
+
+  public getTipo(){
+    return this.http.get<tipo[]>(this.Url+"/tipo")
   }
 
   //Manejo de errores
