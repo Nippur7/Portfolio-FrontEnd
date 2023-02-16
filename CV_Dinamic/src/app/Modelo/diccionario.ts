@@ -1,5 +1,8 @@
+import { experiencia } from "./experiencia";
+import { Ctipo } from "./tipo";
+
 interface Dictionary {
-    [key: string]: string[];
+    [key: string]: any[];
   }
 
 export class DictionaryComponent {    
@@ -15,9 +18,22 @@ export class DictionaryComponent {
           }
         }
       
-        get(key: string): string[] {
+        get(key: string): experiencia[] {
           return this.dictionary[key];
         }
      
-      
+        addArray(t: Ctipo[], e: experiencia[]){
+          for (var i=0;i<t.length;i++){
+            for (var ii=0;ii<e.length;ii++){
+              // if (t[i].idtipo === e[ii].tipo){
+                this.dictionary[t[i].descripcion].push(e[ii])
+                //console.log(i)
+              // }else{
+              console.log(t[i].idtipo.toString())
+              // }
+            }
+          }   
+          //return this.dict;
+        }
+        
   }

@@ -6,7 +6,9 @@ import { catchError } from 'rxjs/operators';
 import { throwError as observableThrowError } from 'rxjs';
 import { experiencia } from '../Modelo/experiencia';
 import { detalle } from '../Modelo/detalle';
-import { tipo } from '../Modelo/tipo';
+import { Ctipo } from '../Modelo/tipo';
+import { skill } from '../Modelo/skill';
+import { proyecto } from '../Modelo/proyecto';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +20,8 @@ export class ServicehttpService {
   constructor(private http: HttpClient,
     private toastr: ToastrService) { }
 
-  //Url='http://localhost:8081';
-  Url='https://cv-argprog4-nippur7.koyeb.app'
+  Url='http://localhost:8081';
+  //Url='https://cv-argprog4-nippur7.koyeb.app'
 
   //Métodos para Usuario
    public getUsuarios(){
@@ -76,7 +78,18 @@ export class ServicehttpService {
   //Método para Tipo
 
   public getTipo(){
-    return this.http.get<tipo[]>(this.Url+"/tipo")
+    return this.http.get<Ctipo[]>(this.Url+"/tipo")
+  }
+  
+  //Métodos para skill
+
+  public getSkills(id:number){
+    return this.http.get<skill[]>(this.Url+"/skill/usuario/"+id)
+  }
+  //Métodos para proyecto
+
+  public getProyectos(id:number){
+    return this.http.get<proyecto[]>(this.Url+"/proyecto/usuario/"+id)
   }
 
   //Manejo de errores

@@ -7,6 +7,10 @@ export interface IUser {
   userSql: any;
 }
 
+export interface Iexperience{
+  
+}
+
 @Injectable({
   providedIn: 'root',
 })

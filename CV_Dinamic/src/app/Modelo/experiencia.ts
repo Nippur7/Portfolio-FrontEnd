@@ -1,3 +1,5 @@
+import { detalle } from "./detalle";
+
 export class experiencia{
     idexperiencia : number = 0;
     imagen: String = '';
@@ -9,4 +11,5 @@ export class experiencia{
     obs: String = '';
     iduser: number = 0;
     detalles : String = '';
+    detexp : detalle = new detalle();
 }

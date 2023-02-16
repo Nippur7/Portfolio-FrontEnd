@@ -10,8 +10,11 @@ import { ServicehttpService } from 'src/app/service/servicehttp.service';
 import { toInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
 import { experiencia } from 'src/app/Modelo/experiencia';
 import { detalle } from 'src/app/Modelo/detalle';
-import { tipo } from 'src/app/Modelo/tipo';
+import { Ctipo } from 'src/app/Modelo/tipo';
 import { DictionaryComponent } from 'src/app/Modelo/diccionario';
+import { skill } from 'src/app/Modelo/skill';
+import { proyecto } from 'src/app/Modelo/proyecto';
+
 
 
 @Component({
@@ -25,12 +28,16 @@ loggeado :boolean = false;
 public dataSql: Usuario = new Usuario;
 public experienciaSql: experiencia[] = [];
 public detalleSql: detalle[] = [];
-public tipoSql: tipo[] = [];
+public tipoSql: Ctipo[] = [];
+public dict : DictionaryComponent = new DictionaryComponent;
+public aux :any[] = [];
+public habilidades : skill[] = [];
+public proy : proyecto[] = [];
 //public experienciaTipo : DictionaryComponent = new DictionaryComponent; 
 
 @Output()
 public datauserlog$: Observable<IUser>;
-private id : number = -1;
+//private id : number = -1;
   iduser: number = -1;
 
   constructor(private afAuth :AngularFireAuth,
@@ -38,7 +45,7 @@ private id : number = -1;
     private toastr: ToastrService,
     private Mservice : MasterserviceService,
     private httpService : ServicehttpService,
-    private dict : DictionaryComponent
+    //private dict : DictionaryComponent
     ){
       this.datauserlog$ = Mservice.loggingObservable;
       //dict
@@ -46,52 +53,95 @@ private id : number = -1;
         if(exp.userSql.idusuario != undefined){
           this.experienciaSql.length = 0;
           this.detalleSql.length = 0;
+          this.tipoSql.length =0;
+          this.habilidades.length = 0;
+          this.proy.length = 0;
+          this.dict = new DictionaryComponent
           this.httpService.getExperiencia(exp.userSql.idusuario)
             //.subscribe(value=>{
                 //this.experienciaSql = value;
                 //console.log(this.experienciaSql)
             //})
-            .forEach(x => {
-              // console.log(x)
+            .subscribe(x => { //.forEach
+              //console.log(x)
+              // this.experienciaSql.push(x.values);
               if (x != undefined){
+                //this.experienciaSql = x
                 x.forEach( exp =>{
-                
-                  this.experienciaSql.push(exp);
-                  // console.log(this.experienciaSql)
+                  //console.log(exp)
+                  //this.experienciaSql.push(exp); //ultima mod
+                  //console.log(this.experienciaSql)
                   this.httpService.getDetalle(exp.iddetalles)
                     .subscribe(det =>{
                       
                       this.detalleSql.push(det)
                       //console.log(det)
+                      exp.detexp = det
+                      //console.log(exp.detexp)
                     })
+                    this.experienciaSql.push(exp);
+                    //console.log(exp)
+                })
+                //console.log(this.experienciaSql[0])
+                this.httpService.getTipo().subscribe(t =>{
+                  t.forEach(data =>{
+                    this.tipoSql.push(data)
+                  })
+                  //this.dict.add(this.tipoSql[1].descripcion,this.experienciaSql)
+                  //this.experienciaSql.find()
+                  //console.log(this.experienciaSql)
+                  for (var i=0;i<this.tipoSql.length;i++){
+                    for (var ii=0;ii<this.experienciaSql.length;ii++){
+                       if (this.tipoSql[i].idtipo === this.experienciaSql[ii].tipo){
+                        this.dict.add(this.tipoSql[i].descripcion,this.experienciaSql[ii])
+                        //console.log(i)
+                      }
+                    }
+                  }
+                  //console.log(this.dict['dictionary']['Estudio'])
+                  this.aux = Object.keys(this.dict['dictionary'])
+                  //console.log(this.aux);
                 })
               }else{
                 console.log("experiencia no definida")
+                
               }
+            });
+            //console.log(exp.userSql.idusuario)
+            this.httpService.getSkills(exp.userSql.idusuario)
+            .subscribe(hab =>{
+              this.habilidades = hab;
+              //console.log(hab)
+            })
+            this.httpService.getProyectos(exp.userSql.idusuario)
+            .subscribe(p =>{
+              this.proy = p;
+              //console.log(this.proy)
             })
             // console.log(this.detalleSql);
+            //console.log(this.dict['dictionary']['Estudio'])
         }else{      
           console.log("error atrapado");
         }
-      });
+        //console.log(this.dict);
+      })
+      
       //  bloque que define el diccionario junto con la experiencia
-      this.httpService.getTipo().subscribe(t =>{
-        this.tipoSql = t
-        //console.log(t[1])
-        //  t.forEach(ti =>{
-          // console.log(ti.idtipo.toString())
-          //console.log(this.experienciaSql[0].tipo.toString()); 
-        
-          // if(ti.idtipo.toString() === this.experienciaSql[0].tipo.toString()){
-          //     this.dict.add(ti.idtipo.toString(),this.experienciaSql[0])
-          //   }
-            
-        //  })
-               
-      });
-      //console.log(this.experienciaSql)
-      console.log(this.dict)
-  }
+      // this.httpService.getTipo().subscribe(t =>{
+      //   t.forEach(data =>{
+      //     this.tipoSql.push(data)
+      //   })
+      //   this.dict.add(this.tipoSql[1].descripcion,this.experienciaSql)
+      //   //this.experienciaSql.find()
+     
+      // })      
+      
+      //console.log(this.dict['dictionary']['Estudio']);
+      //this.aux = Object.keys(this.dict['dictionary'])
+      // console.log(this.aux);
+      
+         
+    }
 
   ngOnInit(): void {
     this.afAuth.currentUser.then(user =>{
@@ -136,69 +186,18 @@ private id : number = -1;
         //this.Mservice.UnLogged
         usuario.forEach(value =>{
         //console.log(value[0])
-          this.dataSql = value[1];
+          this.dataSql = value[0];
           //console.log(this.dataSql)
           this.Mservice.loggingObservableData = {userFireb: '', logging: true, userSql: this.dataSql};
         });
       }    
-    })
-    //carga de experiencia y otros componentes
-
-    // this.Mservice.loggingObservable.subscribe(exp =>{
-    //   if(exp.userSql.idusuario != undefined){
-    //     this.experienciaSql.length = 0;
-    //     this.detalleSql.length = 0;
-    //     this.httpService.getExperiencia(exp.userSql.idusuario)
-    //       //.subscribe(value=>{
-    //           //this.experienciaSql = value;
-    //           //console.log(this.experienciaSql)
-    //       //})
-    //       .forEach(x => {
-    //         // console.log(x)
-    //         if (x != undefined){
-    //           x.forEach( exp =>{
-              
-    //             this.experienciaSql.push(exp);
-    //             // console.log(this.experienciaSql)
-    //             this.httpService.getDetalle(exp.iddetalles)
-    //               .subscribe(det =>{
-                    
-    //                 this.detalleSql.push(det)
-    //               })
-    //           })
-    //         }else{
-    //           console.log("experiencia no definida")
-    //         }
-    //       })
-    //       // console.log(this.detalleSql);
-    //   }else{      
-    //     console.log("error atrapado");
-    //   }
-    // })
-    // //  bloque que define el diccionario junto con la experiencia
-    // this.httpService.getTipo().subscribe(t =>{
-    //   this.tipoSql = t
-    //   t.forEach(type =>{
-    //     // var key :String = type.descripcion
-    //     // var dict ={};
-    //     // this.experienciaTipo['primera'] = '';
-    //     // dict= []
-    //     // console.log(key)
-    //     this.dict.add(type.idtipo.toString(),type.descripcion)
-    //       if(type.idtipo.toString() === this.experienciaSql[0].tipo.toString()){
-    //         this.dict.add(type.idtipo.toString(),this.experienciaSql[0])
-    //       }
+    });   
     
-    //   })
-    //   console.log(this.experienciaSql)
-    //   console.log(this.dict)
-    // });
-
   }
 
   logOut(){
     this.afAuth.signOut().then(()=>this.router.navigate(['/main']));
-    console.log(this.Mservice.loggingObservable)
+    //console.log(this.Mservice.loggingObservable)
     this.loggeado = false;
     //this.Mservice.Logged();
   }
@@ -225,19 +224,19 @@ private id : number = -1;
 
   }
 
-  cargarDic(t:tipo[],exp :experiencia[], dicci:DictionaryComponent){
-    
-    for (var ii in t){
-      for (var i in exp){
-        if (t[ii].idtipo.toString() === exp[i].tipo.toString()){
-          dicci.add(t[ii].idtipo.toString(),exp[i])
-          console.log(exp[i])
+  cargarDic(t:Ctipo[],exp :experiencia[]){
+    // const diccionario: DictionaryComponent = new DictionaryComponent;
+    for (var ii of t){
+      for (var i of exp){
+        if (ii.idtipo.toString() === i.tipo.toString()){
+          this.dict.add(ii.idtipo.toString(),i)
+          console.log(i)
         }else{
-        console.log(exp[i].tipo.toString())
+        console.log(i.tipo.toString())
         }
       }
     }   
-
+    return this.dict;
   }
   
 

@@ -77,21 +77,22 @@
                 <app-usuario *ngIf="loggeado"></app-usuario>
             </div>
         </section>
-        <section class="contenedor">
-            <div class="contenedor__barraTitulo">
-                <h2>Experiencia IT</h2>
+        <section *ngFor="let tipo of aux ; let ii = index" class="contenedor">
+            <div *ngIf="dict.get(tipo)" class="contenedor__barraTitulo">
+                <h2>{{tipo}}</h2>
                 <button *ngIf="loggeado" class="btn btn-outline-primary">
                     <i class="fa-solid fa-plus"></i>
                 </button>
             </div>
-            <div *ngFor="let exp of experienciaSql; let i = index" class="contenedor__child">
+            <div *ngIf="dict.get(tipo)" >
+            <div *ngFor="let exp of dict.get(tipo); let i = index" class="contenedor__child">
                 <img src="./assets/icons/demisa.png" alt="Demisa">
-                <div class="descripcionPuesto">
-                    <h3 *ngIf="detalleSql[i].puesto">{{detalleSql[i].puesto}}</h3>
+                <div *ngIf="exp.detexp" class="descripcionPuesto">
+                    <h3>{{exp.detexp.puesto}}</h3>
                     <h4 class="descripcionPuesto__info">{{exp.lugar}}</h4>
                     <h5 class="descripcionPuesto__info">{{exp.inicio | date:'yyyy'}} - {{exp.fin | date:'yyyy'}}</h5>
                     <p>                        
-                        Descripcion: {{detalleSql[i].descripcion}}
+                        Descripcion: {{exp.detexp.descripcion}}
                     </p>
                 </div>
 
@@ -104,6 +105,8 @@
                     </button>
                 </div>                
             </div>
+            </div>
+            
             <!--
                 <div class="contenedor__child">
                 <img src="./assets/icons/demisa.png" alt="Demisa">    
@@ -240,17 +243,17 @@
                 </div>
             </div> -->
         </section>
-        <section class="contenedor">
+        <section *ngIf="habilidades" class="contenedor">
             <div class="contenedor__barraTitulo">
                 <h2>Hard y soft skills</h2>
                 <button *ngIf="loggeado"><i class="fa-solid fa-plus"></i></button>
             </div>
-            <div class="skills">
+            <div *ngFor=" let skills of habilidades" class="skills">
                 <div>
-                    <h3>Python</h3>
+                    <h3>{{skills.detalle}}</h3>
                     <div class="progress form-group">
-                        <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" aria-valuemin="0.0" aria-valuemax="100.0" role="progressbar" [style.width]="'90.0%'">
-                             Python 90.0%
+                        <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" aria-valuemin="0.0" aria-valuemax="100.0" role="progressbar" [style.width]="skills.porcentaje +'%'">
+                             {{skills.detalle}} - {{skills.porcentaje}}%
                         </div>
                     </div>
                     <div *ngIf="loggeado" class="iconosEdicion">
@@ -307,20 +310,19 @@
             </div>
             
         </section>
-        <section class="contenedor">
+        <section *ngIf="proy" class="contenedor">
             <div class="contenedor__barraTitulo">
                 <h2>Proyectos</h2>
-                <i class="fa-solid fa-plus"></i>
+                <i *ngIf="loggeado" class="fa-solid fa-plus"></i>
             </div>
-            <div class="contenedor__child">
+            <div *ngFor="let proyecto of proy" class="contenedor__child">
                 <img src="./assets/icons/dinero-05.gif" alt="Dólar Oficial Vs Dólar Blue">
                 <div class="descripcionPuesto">
-                    <h3><a href="https://github.com/Nippur7/Portfolio-DataScience/tree/main/PI" target="_blank">
-                        API BCRA | 1º Proyecto que compara la evolución del dólar Oficial vs Dólar Blue
+                    <h3><a href="{{proyecto.link}}" target="_blank">
+                        {{proyecto.titulo}}
                     </a></h3>
-                    <p>1º Proyecto que usando un API del BCRA, Python permite hacer seguimiento de la evolución durante los últimos 4 años de inflación y dólar.
-                        Involucra evolución de la brecha entre dólar Oficial y dólar Blue.
-                        A nivel técnico se usa Python, Dataframe, Regresión Lineal, Seaborn.
+                    <p>
+                        {{proyecto.descripcion}}
                     </p>
                 </div>
                 <div *ngIf="loggeado" class="iconosEdicion">
@@ -328,7 +330,7 @@
                     <i class="fa-solid fa-trash"></i>
                 </div>
             </div>
-            <div class="contenedor__child">
+            <!-- <div class="contenedor__child">
                 <img src="./assets/icons/covid-19.gif" alt="COVID-19 EEUU">
                 <div class="descripcionPuesto">
                     <h3><a href="https://github.com/Nippur7/Portfolio-DataScience/tree/main/PI2" target="_blank">
@@ -366,7 +368,7 @@
                     <i class="fa-solid fa-pen"></i>
                     <i class="fa-solid fa-trash"></i>
                 </div>
-            </div>
+            </div> -->
         </section>
 
         <!-- Iconos -->

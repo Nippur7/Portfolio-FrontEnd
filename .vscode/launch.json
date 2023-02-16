@@ -1,0 +1,35 @@
+{
+    // Use IntelliSense para saber los atributos posibles.
+    // Mantenga el puntero para ver las descripciones de los existentes atributos.
+    // Para más información, visite: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+    
+      {
+        "type": "chrome",
+        "request": "launch",
+        "preLaunchTask": "debugproj",
+        "name": "Launch Chrome against localhost",
+        "url": "http://localhost:4200/main",
+        "webRoot": "${workspaceFolder}/CV_Dinamic",
+        "sourceMaps": true,
+        "sourceMapPathOverrides": {
+          "/./*": "${webRoot}/*",
+          "/src/*": "${webRoot}/*",
+          "/*": "*",
+          "/./~/*": "${webRoot}/node_modules/*",
+      },
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Launch Node.js",
+        "program": "${workspaceFolder}/src/app/app.module.ts",
+        "cwd": "${workspaceFolder}",
+        "runtimeExecutable": "npm",
+        "runtimeArgs": [
+          "run-script", "debug"
+        ]
+      }
+    ]
+  }
