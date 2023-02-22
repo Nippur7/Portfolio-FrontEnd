@@ -23,6 +23,7 @@ import { environment } from 'src/environments/environment';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { MasterserviceService } from './service/masterservice.service';
 import { DictionaryComponent } from './Modelo/diccionario';
+import { ModalServService } from './service/modal-serv.service';
 
 
 
@@ -55,7 +56,8 @@ import { DictionaryComponent } from './Modelo/diccionario';
     HttpClientModule,
     FormsModule
   ],
-  providers: [MasterserviceService, DictionaryComponent],
+  providers: [MasterserviceService, DictionaryComponent,
+    ModalServService, ExperienciaComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

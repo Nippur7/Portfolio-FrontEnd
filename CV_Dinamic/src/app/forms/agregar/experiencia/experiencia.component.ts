@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
-import { IUser, MasterserviceService } from 'src/app/service/masterservice.service';
-import { ModalDismissReasons, NgbDatepickerModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AfterViewInit, Component, ComponentFactoryResolver, ElementRef, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ModalDismissReasons, NgbDatepickerModule, NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Ctipo } from 'src/app/Modelo/tipo';
+import { experiencia } from 'src/app/Modelo/experiencia';
+import { detalle } from 'src/app/Modelo/detalle';
+import { ServicehttpService } from 'src/app/service/servicehttp.service';
+
 
 
 @Component({
@@ -10,35 +12,50 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
   templateUrl: './experiencia.component.html',
   styleUrls: ['./experiencia.component.scss']
 })
-export class ExperienciaComponent {
+export class ExperienciaComponent implements AfterViewInit{
+	@Input() message!: number[];
+	@Input() modal!:NgbActiveModal;
+	@ViewChild('contentExp') contentExp: any;
 
-  closeResult = '';
-
-  experienciaLabForm = new FormGroup({
-	idLab: new FormArray([
-		new FormGroup({
-			idExp: new FormControl('',[Validators.required]),
-			imagen: new FormControl('',[Validators.required]),
-			lugar: new FormControl('',[Validators.required]),
-			inicio: new FormControl('',[Validators.required]),
-			fin: new FormControl('',[Validators.required]),
-			idDetalles: new FormControl('',[Validators.required]),
-			tipo: new FormControl('',[Validators.required]),
-			obs: new FormControl('',[Validators.required]),
-			idUser: new FormControl('',[Validators.required]),
-			modificado: new FormControl('',[Validators.required]),
-			detalles: new FormControl('',[Validators.required])
-		})
+  	closeResult = '';
+  	tiposql : Ctipo;
+  	experienciasql : experiencia;
+  	detallesql : detalle;
 
 
-	])
 
-  })
+	constructor(public modalService: NgbModal,
+		private serviceHttp : ServicehttpService
 
-	constructor(private modalService: NgbModal) {}
+		) {
+			this.detallesql = new detalle;
+			this.experienciasql = new experiencia;
+			this.tiposql = new Ctipo;
 
-	open(content: any) {
-		this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+		}
+	ngAfterViewInit(): void {}
+
+
+
+	//open(content: any) {
+	open() {	
+		console.log(this.message[0]);
+		this.serviceHttp.getTipoId(this.message[0])
+		.subscribe((Tid:Ctipo) =>{
+			this.tiposql = Tid
+			console.log(Tid)
+			this.serviceHttp.getExpId(this.message[1])
+			.subscribe((Tex :experiencia) =>{
+				this.experienciasql = Tex
+				console.log(Tex)
+				this.serviceHttp.getDetalle(this.message[2])
+				.subscribe((Tde: detalle)=>{
+					this.detallesql = Tde
+					console.log(Tde)
+
+		
+		//this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+		this.modalService.open(this.contentExp, { ariaLabelledBy: 'modal-basic-title' }).result.then(
 			(result) => {
 				this.closeResult = `Closed with: ${result}`;
 			},
@@ -46,6 +63,9 @@ export class ExperienciaComponent {
 				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
 			},
 		);
+				})
+			})
+		})
 	}
 
 	private getDismissReason(reason: any): string {

@@ -1,30 +1,32 @@
-<ng-template #content let-modal>
+<ng-template #contentExp let-modal>
 	<div class="modal-header">
 		<h4 class="modal-title" id="modal-basic-title">Modificar Experiencia</h4>
 		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
 	</div>
-	<div class="modal-body">
-		<form [formGroup]="experienciaLabForm" >
+	<div class="modal-body" *ngIf="tiposql">
+		<form #experienciaForm = ngForm >
 			<div class="mb-3">
 				<label>
-					Imagen
-					<input type="text" formControlName="imagen">
+					Tipo de Actividad					
+					<input #modelID [(ngModel)]="tiposql.descripcion" type="string" [ngModelOptions]="{standalone: true}">					
 				</label>
 				<label>
-					Lugar
-					<input type="text" formControlName="lugar">
+					Experiencia
+					<input #modelID [(ngModel)]="experienciasql.lugar" type="string" [ngModelOptions]="{standalone: true}">
 				</label>
 				<label>
 					Inicio
-					<input type="date" formControlName="inicio" ngbDatepicker name="dp" #dp="ngbDatepicker">
+					<input #modelID [(ngModel)]="experienciasql.inicio" type="date" [ngModelOptions]="{standalone: true}">
+					<!-- <input type="date" formControlName="inicio" ngbDatepicker name="dp" #dp="ngbDatepicker"> -->
 				</label>
 				<label>
 					Fin
-					<input type="date" formControlName="fin" ngbDatepicker name="dp2" #dp2="ngbDatepicker">
+					<input #modelID [(ngModel)]="experienciasql.inicio" type="date" [ngModelOptions]="{standalone: true}">
+					<!-- <input type="date" formControlName="fin" ngbDatepicker name="dp2" #dp2="ngbDatepicker"> -->
 				</label>
 				<label>
 					Observaciones
-					<input type="text" formControlName="obs">
+					<!-- <input type="text" formControlName="obs"> -->
 				</label>
 			</div>
 		</form>
@@ -35,10 +37,10 @@
 </ng-template>
 
 
-<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button>
+<!-- <button (click)="open(content)"></button>
 
 <hr />
 
-<pre>{{ closeResult }}</pre>
+<pre>{{ closeResult }}</pre> -->
 <!--
 -->

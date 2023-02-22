@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http'
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http'
 import { Usuario } from '../Modelo/usuario';
 import { ToastrService } from 'ngx-toastr';
 import { catchError } from 'rxjs/operators';
@@ -9,6 +9,7 @@ import { detalle } from '../Modelo/detalle';
 import { Ctipo } from '../Modelo/tipo';
 import { skill } from '../Modelo/skill';
 import { proyecto } from '../Modelo/proyecto';
+import { contacto } from '../Modelo/contacto';
 
 @Injectable({
   providedIn: 'root'
@@ -60,12 +61,22 @@ export class ServicehttpService {
                   })
   }
 
+  public traerImagen(filename : String) :string{
+
+    return (this.Url+"/usuario/imagen/"+ filename)
+
+  }
+
   //Método para Experiencia
 
   public getExperiencia(id:number){
     return this.http.get<experiencia[]>(this.Url+"/experiencia/usuario/"+id)
     //.subscribe(()=>{},error => {this.errorHandler(error)})
     .pipe(catchError(this.errorHandler))
+  }
+
+  public getExpId(id:number){
+    return this.http.get<experiencia>(this.Url+"/experiencia/buscar/"+id)
   }
   
   //Método para Detalle
@@ -80,6 +91,10 @@ export class ServicehttpService {
   public getTipo(){
     return this.http.get<Ctipo[]>(this.Url+"/tipo")
   }
+
+  public getTipoId(idE:number){
+    return this.http.get<Ctipo>(this.Url+"/tipo/buscar/"+idE)
+  }
   
   //Métodos para skill
 
@@ -90,6 +105,12 @@ export class ServicehttpService {
 
   public getProyectos(id:number){
     return this.http.get<proyecto[]>(this.Url+"/proyecto/usuario/"+id)
+  }
+
+  //Métodos para contacto
+
+  public getContacto(id:number){
+    return this.http.get<contacto>(this.Url+"/contacto/usuario/"+id)
   }
 
   //Manejo de errores

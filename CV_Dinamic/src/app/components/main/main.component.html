@@ -23,7 +23,7 @@
     
 
     
-    <title>Carlos A. Matich Cuezzo | Personal Portfolio</title>
+    <title>{{dataSql.nombre}} | Personal Portfolio</title>
 
   </head>
 
@@ -32,13 +32,13 @@
         <nav id="navbar">
             <img src="../assets/icons/APLogo-20-20.png" alt="Logo de Argentina programa" class="logoHeader">
             <ul>
-                <li><a href="https://api.whatsapp.com/send?phone=+543885914783&text=%C2%A1Hola%20Tony!%20Me%20gustar%C3%ADa%20ponerme%20en%20contacto%20para%20conocer%20m%C3%A1s%20sobre%20tu%20trabajo"
+                <li><a href="https://api.whatsapp.com/send?phone={{contact.celular}}&text=%C2%A1Hola%20{{dataSql.nombre}}!%20Me%20gustar%C3%ADa%20ponerme%20en%20contacto%20para%20conocer%20m%C3%A1s%20sobre%20tu%20trabajo"
                         target="_blank"><i class="fa-brands fa-whatsapp"></i><span> Whatsapp</span></a></li>
-                <li><a href="mailto:tonymatich@hotmail.com" target="_blank"><i class="fa-solid fa-envelope"></i>
+                <li><a href="mailto:{{contact.email}}" target="_blank"><i class="fa-solid fa-envelope"></i>
                         <span> Email</span></a></li>
-                <li><a href="https://github.com/Nippur7" id="profile-link" target="_blank"><i
+                <li><a href="{{contact.git}}" id="profile-link" target="_blank"><i
                             class="fa-brands fa-github"></i><span> Github</span></a></li>
-                <li><a href="https://www.linkedin.com/in/carlosmatich/" target="_blank"><i class="fa-brands fa-linkedin"></i>
+                <li><a href="{{contact.link}}" target="_blank"><i class="fa-brands fa-linkedin"></i>
                         <span> Linkedin</span></a></li>                
                 <li><a routerLink="/login" *ngIf="!loggeado"><i class="fa fa-sign-in"></i>
                         <span> Login</span></a></li>
@@ -49,7 +49,7 @@
         </nav>
         <div class="welcome">
             <h1>{{dataSql.nombre}} {{dataSql.apellido}}</h1>
-            <h2>Data Scientist</h2>
+            <h2>{{contact.puesto}}</h2>
         </div>
     </header>
 <body>
@@ -57,12 +57,12 @@
         <section class="informacion">
             <div class="descripcion">
                 
-                <img src="./assets/images/profile_pic_small.jpg" alt="Carlos Matich, Data Scientist"
+                <img src="http://localhost:8081/usuario/imagen/{{dataSql.picture}}" alt="Imagen"
                     class="fotoPerfil">
                 <div class="descripcion__info">
                     <h2>{{ dataSql.nombre }} {{dataSql.apellido}}</h2>
-                    <h3>Data Scientist</h3>
-                    <h3 class="location">Jujuy, Argentina</h3>
+                    <h3>{{contact.puesto}}</h3>
+                    <h3 class="location">{{contact.pais}}, {{contact.provincia}}</h3>
                 </div>
             </div>
             <div class="aboutMe">
@@ -97,151 +97,20 @@
                 </div>
 
                 <div *ngIf="loggeado" class="iconosEdicion">
-                    <button class="btn btn-outline-primary">
+                    <button class="btn btn-outline-primary" (click)="modificarExp(tipo,i, dict)">
                         <i class="fa-solid fa-pen"></i>
+                        <!-- <ng-template #contentExp let-modal> -->
+                            <app-experiencia [message]="data"></app-experiencia>
+                        <!-- </ng-template> -->
                     </button>
-                    <button class="btn btn-outline-primary">
+                    <button class="btn btn-outline-primary" (click)="eliminarExp()">
                         <i class="fa-solid fa-trash"></i>
                     </button>
                 </div>                
             </div>
             </div>
             
-            <!--
-                <div class="contenedor__child">
-                <img src="./assets/icons/demisa.png" alt="Demisa">    
-                <div class="descripcionPuesto">
-                    <h3>SISTEMA TANGO GESTIÓN</h3>
-                    <h4 class="descripcionPuesto__info">Demisa Construcciones S.A.</h4>
-                    <h5 class="descripcionPuesto__info">2009 - 2021</h5>
-                    <p>Parametrización Sistema TANGO, Soporte y capacitación paquete Office
-                        , Informes, tableros, reportes.</p>
-                </div>
-                <div *ngIf="loggeado" class="iconosEdicion">
-                    <i class="fa-solid fa-pen"></i>
-                    <i class="fa-solid fa-trash"></i>
-                </div>
-            </div>
-            <div class="contenedor__child">
-                <img src="./assets/icons/demisa.png" alt="Demisa">  
-           
-                <div class="descripcionPuesto">
-                    <h3>Data Entry</h3>
-                    <h4 class="descripcionPuesto__info">Demisa Construcciones S.A.</h4>
-                    <h5 class="descripcionPuesto__info">2009 - 2021</h5>
-                    <p>Carga comprobantes Sistema TANGO, Módulos COMPRA, VENTA, TESORERÍA.</p>
-                </div>
-                <div *ngIf="loggeado" class="iconosEdicion">
-                    <i class="fa-solid fa-pen"></i>
-                    <i class="fa-solid fa-trash"></i>
-                </div>
-            </div>
-            <div class="contenedor__child">
-              <img src="./assets/icons/demisa.png" alt="Demisa">  
          
-              <div class="descripcionPuesto">
-                <app-slider-ex></app-slider-ex> 
-              </div>
-                
-              <div *ngIf="loggeado" class="iconosEdicion">
-                  <i class="fa-solid fa-pen"></i>
-                  <i class="fa-solid fa-trash"></i>
-              </div>
-          </div> 
-        </section>
-        <section class="contenedor">
-            <div class="contenedor__barraTitulo">
-                <h2>Experiencia Contable</h2>
-                <i class="fa-solid fa-plus"></i>
-            </div>
-            <div class="contenedor__child">
-                <img src="./assets/icons/demisa.png" alt="Demisa">
-                <div class="descripcionPuesto">
-                    <h3>TESORERO</h3>
-                    <h4 class="descripcionPuesto__info">Demisa Construcciones S.A.</h4>
-                    <h5 class="descripcionPuesto__info">2017 - 2019</h5>
-                    <p>CASH FLOW, O/P, Conciliaciones Bancarias, Emisión de Cheques, Compras, Ventas, reportes, dashboards EXCEL, ACCESS</p>
-                </div>               
-                
-                <div *ngIf="loggeado" class="iconosEdicion">
-                    <i class="fa-solid fa-pen"></i>
-                    <i class="fa-solid fa-trash"></i>
-                </div>
-            </div>
-            <div class="contenedor__child">
-                <img src="./assets/icons/demisa.png" alt="Demisa">
-                <div class="descripcionPuesto">
-                    <h3>Aux. Contable</h3>
-                    <h4 class="descripcionPuesto__info">Demisa Construcciones S.A.</h4>
-                    <h5 class="descripcionPuesto__info">2010 - 2021</h5>
-                    <p>Conciliación Cuentas Proveedores, Remitos, Armado de carpetas Impositivas AFIP, IIBB</p>
-                </div>               
-                
-                <div *ngIf="loggeado" class="iconosEdicion">
-                    <i class="fa-solid fa-pen"></i>
-                    <i class="fa-solid fa-trash"></i>
-                </div>
-            </div>
-            <div class="contenedor__child">
-                <img src="./assets/icons/demisa.png" alt="Demisa">
-                <div class="descripcionPuesto">
-                    <h3>Ayte. Área Técnica</h3>
-                    <h4 class="descripcionPuesto__info">Demisa Construcciones S.A.</h4>
-                    <h5 class="descripcionPuesto__info">2010 - 2017</h5>
-                    <p>Documentación, Armado y presentación de carpeta técnica en Licitaciones</p>
-                </div>               
-                
-                <div *ngIf="loggeado" class="iconosEdicion">
-                    <i class="fa-solid fa-pen"></i>
-                    <i class="fa-solid fa-trash"></i>
-                </div>
-            </div>
-        </section>
-
-        <section class="contenedor">
-            <div class="contenedor__barraTitulo">
-                <h2>Educación</h2>
-                <button *ngIf="loggeado"><i class="fa-solid fa-plus"></i></button>
-            </div>
-            <div class="contenedor__child">
-                <img src="../../../assets/icons/APLogo-20-20.png" alt="Argentina programa">
-                <div class="descripcionPuesto">
-                    <h3>Argentina Programa</h3>
-                    <h4>Desarrollador Web Fullstack</h4>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur odit reprehenderit Lorem ipsum
-                        dolor sit amet consectetur, adipisicing elit. Nesciunt, sint!</p>
-                </div>
-                <div *ngIf="loggeado" class="iconosEdicion">
-                    <i class="fa-solid fa-pen"></i>
-                    <i class="fa-solid fa-trash"></i>
-                </div>
-            </div>
-            <div class="contenedor__child">
-                <img src="../../../assets/icons/Henry.jfif" alt="Henry">
-                <div class="descripcionPuesto">
-                    <h3>Henry BootCamp</h3>
-                    <h4>Data Scientist</h4>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur odit reprehenderit Lorem ipsum
-                        dolor sit amet consectetur, adipisicing elit. Nesciunt, sint!</p>
-                </div>
-                <div *ngIf="loggeado" class="iconosEdicion">
-                    <i class="fa-solid fa-pen"></i>
-                    <i class="fa-solid fa-trash"></i>
-                </div>
-            </div>
-            <div class="contenedor__child">
-                <img src="../../../assets/icons/S21.jfif" alt="UES21">
-                <div class="descripcionPuesto">
-                    <h3>Universidad Empresarial Siglo 21</h3>
-                    <h4>Licenciatura en Informática</h4>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur odit reprehenderit Lorem ipsum
-                        dolor sit amet consectetur, adipisicing elit. Nesciunt, sint!</p>
-                </div>
-                <div *ngIf="loggeado" class="iconosEdicion">
-                    <i class="fa-solid fa-pen"></i>
-                    <i class="fa-solid fa-trash"></i>
-                </div>
-            </div> -->
         </section>
         <section *ngIf="habilidades" class="contenedor">
             <div class="contenedor__barraTitulo">
@@ -261,51 +130,7 @@
                         <i class="fa-solid fa-trash"></i>
                     </div>
                 </div>
-                <!--
-                    <div class="container">
-                    <div class="skills__child python">90%</div>
-                </div>
-                
-                <div>
-                    <h3>ETL - Web Scapping</h3>
-                    <div *ngIf="loggeado" class="iconosEdicion">
-                        <i class="fa-solid fa-pen"></i>
-                        <i class="fa-solid fa-trash"></i>
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="skills__child etl">80%</div>
-                </div>
-                <div>
-                    <h3>Power Bi</h3>
-                    <div *ngIf="loggeado" class="iconosEdicion">
-                        <i class="fa-solid fa-pen"></i>
-                        <i class="fa-solid fa-trash"></i>
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="skills__child pb">90%</div>
-                </div>
-                <div>
-                    <h3>Machine Learning</h3>
-                    <div *ngIf="loggeado" class="iconosEdicion">
-                        <i class="fa-solid fa-pen"></i>
-                        <i class="fa-solid fa-trash"></i>
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="skills__child ml">70%</div>
-                </div>
-                <div>
-                    <h3>Cloud Computing</h3>
-                    <div *ngIf="loggeado" class="iconosEdicion">
-                        <i class="fa-solid fa-pen"></i>
-                        <i class="fa-solid fa-trash"></i>
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="skills__child cc">70%</div>
-                </div>-->
+
                 
             </div>
             
@@ -330,45 +155,7 @@
                     <i class="fa-solid fa-trash"></i>
                 </div>
             </div>
-            <!-- <div class="contenedor__child">
-                <img src="./assets/icons/covid-19.gif" alt="COVID-19 EEUU">
-                <div class="descripcionPuesto">
-                    <h3><a href="https://github.com/Nippur7/Portfolio-DataScience/tree/main/PI2" target="_blank">
-                        COVID-19 | EE.UU 2º Proyecto individual.</a></h3>
-                    <p>El CDC (centro de control y prevención de enfermedades) de EE. UU. es la entidad encargada 
-                        de monitorear la salud pública y desarrollar estrategias para la prevención y control de enfermedades. Por esto ha contratado 
-                        a nuestra consultora para organizar, en base a los datos recolectados, los recursos hospitalarios para prevenir que lo ocurrido 
-                        durante la pandemia COVID-19 suceda de vuelta.
-                        A nivel técnico se usa STREAMLIT, Python, POWER BI, Regresion Lineal.
-                    </p>
-                </div>
-                <div class="iconosEdicion">
-                    <i class="fa-solid fa-pen"></i>
-                    <i class="fa-solid fa-trash"></i>
-                </div>
-            </div>
-            <div class="contenedor__child">
-                <img src="./assets/icons/CO2.gif" alt="CO2">
-                <div class="descripcionPuesto">
-                    <h3><a href="https://github.com/Nippur7/Portfolio-DataScience/tree/main/PGrupal" target="_blank">
-                        IMPACTO CO2 | Proyecto Grupal</a></h3>
-                    <p>Proyecto Grupal, Se pretende analizar y estimar el impacto de la Huella de Carbono, junto con el consumo
-                        de combustibles y como se establece la correlación entre consumo y generación de contaminantes.
-                        A nivel de datos se usó el método de trabajo SCRUM, Diagrama de Entidad Relación, Obtención de Insights, 
-                        Se implementó un servidor local Apache con My-SQL, para pruebas, el deploy se realizó en S3, Athena.
-                        La actualización de los datos se usó Crawlers (AWS), en un Bucket, Función Lambda.
-                        La visualización se usó POWER BI, embebido en un proyecto de STREAM-LIT.
-                        Se usaron varios modelos de Machine Learning (KNN, Desicion Trees), para clasificar datos.
-                        Se usó un modelo de red neuronal para forecasting.
-                        <a href="https://pgrupal13-proyectogrupal-inicio-3klytr.streamlit.app/" target="_blank">
-                            Proyecto Grupal, deploy StreamLit</a>
-                    </p>
-                </div>
-                <div class="iconosEdicion">
-                    <i class="fa-solid fa-pen"></i>
-                    <i class="fa-solid fa-trash"></i>
-                </div>
-            </div> -->
+ 
         </section>
 
         <!-- Iconos -->

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -14,6 +14,11 @@ import { Ctipo } from 'src/app/Modelo/tipo';
 import { DictionaryComponent } from 'src/app/Modelo/diccionario';
 import { skill } from 'src/app/Modelo/skill';
 import { proyecto } from 'src/app/Modelo/proyecto';
+import { contacto } from 'src/app/Modelo/contacto';
+import { HttpResponse } from '@angular/common/http';
+import { ExperienciaComponent } from 'src/app/forms/agregar/experiencia/experiencia.component';
+//import { ModalServService } from '../../service/modal-serv.service';
+//import { abrirMod } from '../../forms/agregar/experiencia/experiencia.component';
 
 
 
@@ -23,6 +28,9 @@ import { proyecto } from 'src/app/Modelo/proyecto';
   styleUrls: ['./main.component.scss','./bootstrap/bootstrap.min.css']
 })
 export class MainComponent implements OnInit{
+// @ViewChild('contentExp', {static:true}) contentExp: TemplateRef<any> | undefined;
+  @ViewChild(ExperienciaComponent)
+  experienciaComponent!: ExperienciaComponent;
 datauser :any;
 loggeado :boolean = false;
 public dataSql: Usuario = new Usuario;
@@ -33,6 +41,9 @@ public dict : DictionaryComponent = new DictionaryComponent;
 public aux :any[] = [];
 public habilidades : skill[] = [];
 public proy : proyecto[] = [];
+public contact : contacto = new contacto;
+public picture : string = '';
+public data :number[] = [];
 //public experienciaTipo : DictionaryComponent = new DictionaryComponent; 
 
 @Output()
@@ -45,8 +56,11 @@ public datauserlog$: Observable<IUser>;
     private toastr: ToastrService,
     private Mservice : MasterserviceService,
     private httpService : ServicehttpService,
+    private modalService: NgbModal,
+    //private modalS: modalService
     //private dict : DictionaryComponent
     ){
+      //this.contentExp = null;
       this.datauserlog$ = Mservice.loggingObservable;
       //dict
       this.Mservice.loggingObservable.subscribe(exp =>{
@@ -58,19 +72,13 @@ public datauserlog$: Observable<IUser>;
           this.proy.length = 0;
           this.dict = new DictionaryComponent
           this.httpService.getExperiencia(exp.userSql.idusuario)
-            //.subscribe(value=>{
-                //this.experienciaSql = value;
-                //console.log(this.experienciaSql)
-            //})
+
             .subscribe(x => { //.forEach
-              //console.log(x)
-              // this.experienciaSql.push(x.values);
+   
               if (x != undefined){
                 //this.experienciaSql = x
                 x.forEach( exp =>{
-                  //console.log(exp)
-                  //this.experienciaSql.push(exp); //ultima mod
-                  //console.log(this.experienciaSql)
+ 
                   this.httpService.getDetalle(exp.iddetalles)
                     .subscribe(det =>{
                       
@@ -87,9 +95,7 @@ public datauserlog$: Observable<IUser>;
                   t.forEach(data =>{
                     this.tipoSql.push(data)
                   })
-                  //this.dict.add(this.tipoSql[1].descripcion,this.experienciaSql)
-                  //this.experienciaSql.find()
-                  //console.log(this.experienciaSql)
+
                   for (var i=0;i<this.tipoSql.length;i++){
                     for (var ii=0;ii<this.experienciaSql.length;ii++){
                        if (this.tipoSql[i].idtipo === this.experienciaSql[ii].tipo){
@@ -98,48 +104,42 @@ public datauserlog$: Observable<IUser>;
                       }
                     }
                   }
-                  //console.log(this.dict['dictionary']['Estudio'])
+               
                   this.aux = Object.keys(this.dict['dictionary'])
-                  //console.log(this.aux);
+                  
                 })
               }else{
                 console.log("experiencia no definida")
                 
               }
             });
-            //console.log(exp.userSql.idusuario)
+           
             this.httpService.getSkills(exp.userSql.idusuario)
             .subscribe(hab =>{
               this.habilidades = hab;
-              //console.log(hab)
+             
             })
             this.httpService.getProyectos(exp.userSql.idusuario)
             .subscribe(p =>{
               this.proy = p;
-              //console.log(this.proy)
+            
             })
-            // console.log(this.detalleSql);
-            //console.log(this.dict['dictionary']['Estudio'])
+            this.httpService.getContacto(exp.userSql.idusuario)
+            .subscribe(c =>{
+              this.contact = c;
+             
+            })
+            
+            this.picture = this.httpService.traerImagen(this.dataSql.picture)
+            console.log(exp.userSql.picture)
+            
+
         }else{      
           console.log("error atrapado");
         }
-        //console.log(this.dict);
+   
       })
-      
-      //  bloque que define el diccionario junto con la experiencia
-      // this.httpService.getTipo().subscribe(t =>{
-      //   t.forEach(data =>{
-      //     this.tipoSql.push(data)
-      //   })
-      //   this.dict.add(this.tipoSql[1].descripcion,this.experienciaSql)
-      //   //this.experienciaSql.find()
-     
-      // })      
-      
-      //console.log(this.dict['dictionary']['Estudio']);
-      //this.aux = Object.keys(this.dict['dictionary'])
-      // console.log(this.aux);
-      
+
          
     }
 
@@ -147,34 +147,29 @@ public datauserlog$: Observable<IUser>;
     this.afAuth.currentUser.then(user =>{
       if(user && user.emailVerified){
         this.datauser = user;
-        //this.Mservice.setdatauser(user)
+        
         this.loggeado = true;
         this.httpService.getUsuarioEmail(this.datauser.email)
 					.subscribe(id=>{
 								this.iduser = id;
-								//console.log(this.iduser)
+								
 					      this.httpService.getUsuarioId(this.iduser)
 						      .subscribe(data=>{
                     this.Mservice.loggingObservableData = {userFireb: user, logging: true, userSql: data};
-							      //console.log(this.usuario.email)});
+							  
 						      })
 			
 		      })
         
-        //this.Mservice.loggingObservableData.logging = true;
+
         this.datauserlog$ = this.Mservice.loggingObservable;
         this.datauserlog$.subscribe(datos =>{
           this.dataSql = datos.userSql
         })
-        //console.log(this.Mservice.loggingObservable)
-        //console.log(this.data$)
-        //this.Mservice.Logged()        
-        //this.httpService.getUsuarioEmail(user.email);
-        //console.log(this.id);
+
 
         this.toastr.info('Ahora puede modificar objetos','Modo de escritura');
-        //this.experienciaSql.length = 0;
-        //this.detalleSql.length = 0;
+
       }else{
         this.router.navigate(['/main'])
         this.loggeado = false;  
@@ -202,7 +197,7 @@ public datauserlog$: Observable<IUser>;
     //this.Mservice.Logged();
   }
 
-  elimnarExp(){
+  public eliminarExp(){
     console.log("boton eliminar experiencia")
   }
 
@@ -214,9 +209,23 @@ public datauserlog$: Observable<IUser>;
     console.log("Agregar experiencia")
   }
 
-  modificarExp(){
-    console.log("modificar experiencia")
-    //<app->
+  public modificarExp(index: string, index2 : number, diccionario :any){
+    
+    // diccionario.get(index).((d:any)=>{
+    console.log("modificar experiencia "+ JSON.stringify(diccionario.get(index)[index2]))    
+    this.data.length = 0;
+    this.data.push(diccionario.get(index)[index2].tipo);
+    this.data.push(diccionario.get(index)[index2].idexperiencia);
+    this.data.push(diccionario.get(index)[index2].iddetalles); 
+    //console.log(this.data)
+    // this.experienciaComponent.message = {
+    //   tipo:diccionario.get(index)[index2].tipo,
+    //   idexperiencia:diccionario.get(index)[index2].idexperiencia,
+    //   iddetalles:diccionario.get(index)[index2].iddetalles
+    // };
+    this.experienciaComponent.open();
+    //const modalRef = this.modalService.open(ExperienciaComponent);
+    //modalRef.componentInstance.message = experiencia;
   }
 
   modificarAbout(){
