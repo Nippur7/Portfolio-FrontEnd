@@ -173,16 +173,15 @@ public datauserlog$: Observable<IUser>;
       }else{
         this.router.navigate(['/main'])
         this.loggeado = false;  
-        //this.Mservice.loggingObservableData = {user: user, logging: false};
+  
         this.toastr.info('Para modificar objetos debe hacer LOGIN','Modo de sólo Lectura');
         var usuario: Observable<Usuario[]>;
         usuario = this.httpService.getUsuarios()
-        //console.log(this.Mservice.loggingObservable)
-        //this.Mservice.UnLogged
+
         usuario.forEach(value =>{
-        //console.log(value[0])
+
           this.dataSql = value[0];
-          //console.log(this.dataSql)
+  
           this.Mservice.loggingObservableData = {userFireb: '', logging: true, userSql: this.dataSql};
         });
       }    
@@ -211,21 +210,27 @@ public datauserlog$: Observable<IUser>;
 
   public modificarExp(index: string, index2 : number, diccionario :any){
     
-    // diccionario.get(index).((d:any)=>{
-    console.log("modificar experiencia "+ JSON.stringify(diccionario.get(index)[index2]))    
+   
     this.data.length = 0;
     this.data.push(diccionario.get(index)[index2].tipo);
     this.data.push(diccionario.get(index)[index2].idexperiencia);
     this.data.push(diccionario.get(index)[index2].iddetalles); 
-    //console.log(this.data)
-    // this.experienciaComponent.message = {
-    //   tipo:diccionario.get(index)[index2].tipo,
-    //   idexperiencia:diccionario.get(index)[index2].idexperiencia,
-    //   iddetalles:diccionario.get(index)[index2].iddetalles
-    // };
+
     this.experienciaComponent.open();
-    //const modalRef = this.modalService.open(ExperienciaComponent);
-    //modalRef.componentInstance.message = experiencia;
+
+  }
+
+  public actualizarExp($event:any[]){
+    var iindex : number = 0;
+
+    for (let element of this.dict.get($event[1].descripcion)){
+      if (element.idexperiencia === $event[0].idexperiencia){        
+        break;
+      } else{
+        iindex = iindex +1
+      }
+    }    
+    this.dict.mod($event[1].descripcion,iindex,$event)    
   }
 
   modificarAbout(){
@@ -234,7 +239,7 @@ public datauserlog$: Observable<IUser>;
   }
 
   cargarDic(t:Ctipo[],exp :experiencia[]){
-    // const diccionario: DictionaryComponent = new DictionaryComponent;
+  
     for (var ii of t){
       for (var i of exp){
         if (ii.idtipo.toString() === i.tipo.toString()){
@@ -248,6 +253,9 @@ public datauserlog$: Observable<IUser>;
     return this.dict;
   }
   
+  public actualizarSkill($event:skill, i:number){
+    this.habilidades[i] = $event;
+  }
 
 }
 

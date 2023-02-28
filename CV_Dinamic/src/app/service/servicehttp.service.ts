@@ -78,12 +78,26 @@ export class ServicehttpService {
   public getExpId(id:number){
     return this.http.get<experiencia>(this.Url+"/experiencia/buscar/"+id)
   }
+
+  public guardarExperiencia(exp:experiencia){
+    this.http.post<HttpErrorResponse>(this.Url+"/experiencia/agregar", exp)
+    .subscribe(() =>{    
+    },error => {this.errorHandler(error)
+              })
+  }
   
   //Método para Detalle
 
   public getDetalle(id:number){
     return this.http.get<detalle>(this.Url+"/detalle/buscar/"+id)
     .pipe(catchError(this.errorHandler))
+  }
+
+  public guardarDetalle(de: detalle){
+    this.http.post<HttpErrorResponse>(this.Url+"/detalle/agregar",de)
+    .subscribe(() =>{    
+    },error => {this.errorHandler(error)
+              })
   }
 
   //Método para Tipo
@@ -95,12 +109,32 @@ export class ServicehttpService {
   public getTipoId(idE:number){
     return this.http.get<Ctipo>(this.Url+"/tipo/buscar/"+idE)
   }
+
+  public guardarTipo(ti : Ctipo){
+    this.http.post<HttpErrorResponse>(this.Url+"/tipo/agregar",ti)
+    .subscribe(() =>{    
+    },error => {this.errorHandler(error)
+              })
+  }
   
   //Métodos para skill
 
-  public getSkills(id:number){
-    return this.http.get<skill[]>(this.Url+"/skill/usuario/"+id)
+  public getSkills(ids:number){
+    return this.http.get<skill[]>(this.Url+"/skill/usuario/"+ids)
   }
+
+  public obtenerSkill(id : number){
+    return this.http.get<skill>(this.Url+"/skill/buscar/"+id)
+  }
+
+  public guardarSkill(sk : skill){
+    this.http.post<HttpErrorResponse>(this.Url+"/skill/agregar",sk)
+    .subscribe(() =>{    
+    },error => {this.errorHandler(error)
+              console.log(error)
+              })
+  }
+
   //Métodos para proyecto
 
   public getProyectos(id:number){

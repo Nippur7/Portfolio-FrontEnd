@@ -24,6 +24,8 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { MasterserviceService } from './service/masterservice.service';
 import { DictionaryComponent } from './Modelo/diccionario';
 import { ModalServService } from './service/modal-serv.service';
+import { SkillComponent } from './forms/agregar/skill/skill.component';
+import { ProyectosComponent } from './forms/agregar/proyectos/proyectos.component';
 
 
 
@@ -42,7 +44,9 @@ import { ModalServService } from './service/modal-serv.service';
     ExperienciaComponent,
     UsuarioComponent,
     RecuperarComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    SkillComponent,
+    ProyectosComponent
   ],
   imports: [
     BrowserModule,

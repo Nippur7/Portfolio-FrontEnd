@@ -1,0 +1,79 @@
+<ng-template #content let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Habilidades Hard & Soft</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body" *ngIf="habilidad">
+		<form #usuarioForm ="ngForm">
+			<div class="mb-3">
+				<label>
+					Detalle
+					
+					<input #modelID [(ngModel)]="habilidad.detalle" type="string" [ngModelOptions]="{standalone: true}">
+					
+					
+				</label>
+				<label>
+					Cantidad
+					<!--<input type="text" formControlName="apellido">-->
+					<input #modelID [(ngModel)]="habilidad.porcentaje" type="number" [ngModelOptions]="{standalone: true}">
+				</label>
+				<!-- <label>
+					Nombre
+					
+					<input #modelID [(ngModel)]="usuario.nombre" type="string" [ngModelOptions]="{standalone: true}">
+				</label>
+				<label>
+					Correo
+					
+					<input #modelID [(ngModel)]="usuario.email" type="email" [ngModelOptions]="{standalone: true}">
+				</label>
+				<label>
+					Contraseña
+					
+					<input #modelID [(ngModel)]="usuario.password" type="password" [ngModelOptions]="{standalone: true}">
+				</label> -->
+                <!-- <label>
+					Fecha de Ingreso
+					<input type="text" formControlName="ingreso">                   
+					<input #modelID [(ngModel)]="usuario.ingreso" type="date" [ngModelOptions]="{standalone: true}">
+				</label>
+                <label>
+					Acerca de mí
+					<input type="text" formControlName="aboutme">
+					<input #modelID [(ngModel)]="usuario.aboutme" type="string" [ngModelOptions]="{standalone: true}">
+				</label>
+                <label>
+					Foto
+					<input #modelID [(ngModel)]="usuario.picture" type="string" [ngModelOptions]="{standalone: true}">
+					<input type="text" formControlName="imagen"> 
+					<div>
+						<input (change)="convertirFile($event)" type="file">
+					</div>
+					<div *ngIf="preview">
+						<img width="100px" [src]="preview" alt="">
+					</div> 
+					
+				</label>-->
+			</div>			
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-primary" (click)="editSkill(habilidad)">
+			Guardar Cambios
+		</button>
+	</div>
+</ng-template>
+
+
+<button class="btn btn-lg btn-outline-primary" (click)="open(content)">
+	<i class="fa-solid fa-pen"></i>
+</button>
+<!--
+<hr />
+
+<pre>{{ closeResult }}</pre>
+<pre>{{usuario | json}}</pre>
+
+-->
+

@@ -100,7 +100,7 @@
                     <button class="btn btn-outline-primary" (click)="modificarExp(tipo,i, dict)">
                         <i class="fa-solid fa-pen"></i>
                         <!-- <ng-template #contentExp let-modal> -->
-                            <app-experiencia [message]="data"></app-experiencia>
+                            <app-experiencia [message]="data" (actexpEvent)="actualizarExp($event)"></app-experiencia>
                         <!-- </ng-template> -->
                     </button>
                     <button class="btn btn-outline-primary" (click)="eliminarExp()">
@@ -117,7 +117,7 @@
                 <h2>Hard y soft skills</h2>
                 <button *ngIf="loggeado"><i class="fa-solid fa-plus"></i></button>
             </div>
-            <div *ngFor=" let skills of habilidades" class="skills">
+            <div *ngFor=" let skills of habilidades let i = index" class="skills">
                 <div>
                     <h3>{{skills.detalle}}</h3>
                     <div class="progress form-group">
@@ -126,7 +126,8 @@
                         </div>
                     </div>
                     <div *ngIf="loggeado" class="iconosEdicion">
-                        <i class="fa-solid fa-pen"></i>
+                        <!-- <i class="fa-solid fa-pen"></i> -->
+                        <app-skill [idskill]="skills.idskill" (messageEvent)="actualizarSkill($event,i)"></app-skill>
                         <i class="fa-solid fa-trash"></i>
                     </div>
                 </div>

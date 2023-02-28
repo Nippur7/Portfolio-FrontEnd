@@ -22,18 +22,18 @@ export class DictionaryComponent {
           return this.dictionary[key];
         }
      
-        addArray(t: Ctipo[], e: experiencia[]){
-          for (var i=0;i<t.length;i++){
-            for (var ii=0;ii<e.length;ii++){
-              // if (t[i].idtipo === e[ii].tipo){
-                this.dictionary[t[i].descripcion].push(e[ii])
-                //console.log(i)
-              // }else{
-              console.log(t[i].idtipo.toString())
-              // }
-            }
-          }   
-          //return this.dict;
+        mod(t: string, i: number, data:any[]){
+          //console.log(t,i,data)
+          this.dictionary[t][i].detexp = data[2];
+          this.dictionary[t][i].idexperiencia = data[0].idexperiencia;
+          this.dictionary[t][i].lugar = data[0].lugar;
+          this.dictionary[t][i].inicio = data[0].inicio;
+          this.dictionary[t][i].fin = data[0].fin;
+          this.dictionary[t][i].iddetalles = data[0].iddetalles;
+          this.dictionary[t][i].tipo = data[0].tipo;
+          this.dictionary[t][i].obs = data[0].obs;
+          this.dictionary[t][i].iduser = data[0].iduser;
+
         }
         
   }
