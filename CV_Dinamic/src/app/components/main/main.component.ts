@@ -1,13 +1,12 @@
-import { Component, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, ViewChild } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { Usuario } from 'src/app/Modelo/usuario';
 import { IUser, MasterserviceService } from 'src/app/service/masterservice.service';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ServicehttpService } from 'src/app/service/servicehttp.service';
-import { toInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
 import { experiencia } from 'src/app/Modelo/experiencia';
 import { detalle } from 'src/app/Modelo/detalle';
 import { Ctipo } from 'src/app/Modelo/tipo';
@@ -15,10 +14,8 @@ import { DictionaryComponent } from 'src/app/Modelo/diccionario';
 import { skill } from 'src/app/Modelo/skill';
 import { proyecto } from 'src/app/Modelo/proyecto';
 import { contacto } from 'src/app/Modelo/contacto';
-import { HttpResponse } from '@angular/common/http';
 import { ExperienciaComponent } from 'src/app/forms/agregar/experiencia/experiencia.component';
-//import { ModalServService } from '../../service/modal-serv.service';
-//import { abrirMod } from '../../forms/agregar/experiencia/experiencia.component';
+
 
 
 
@@ -28,7 +25,7 @@ import { ExperienciaComponent } from 'src/app/forms/agregar/experiencia/experien
   styleUrls: ['./main.component.scss','./bootstrap/bootstrap.min.css']
 })
 export class MainComponent implements OnInit{
-// @ViewChild('contentExp', {static:true}) contentExp: TemplateRef<any> | undefined;
+
   @ViewChild(ExperienciaComponent)
   experienciaComponent!: ExperienciaComponent;
 datauser :any;
@@ -44,11 +41,11 @@ public proy : proyecto[] = [];
 public contact : contacto = new contacto;
 public picture : string = '';
 public data :number[] = [];
-//public experienciaTipo : DictionaryComponent = new DictionaryComponent; 
+
 
 @Output()
 public datauserlog$: Observable<IUser>;
-//private id : number = -1;
+
   iduser: number = -1;
 
   constructor(private afAuth :AngularFireAuth,
@@ -57,12 +54,11 @@ public datauserlog$: Observable<IUser>;
     private Mservice : MasterserviceService,
     private httpService : ServicehttpService,
     private modalService: NgbModal,
-    //private modalS: modalService
-    //private dict : DictionaryComponent
+
     ){
-      //this.contentExp = null;
+
       this.datauserlog$ = Mservice.loggingObservable;
-      //dict
+
       this.Mservice.loggingObservable.subscribe(exp =>{
         if(exp.userSql.idusuario != undefined){
           this.experienciaSql.length = 0;
@@ -73,24 +69,24 @@ public datauserlog$: Observable<IUser>;
           this.dict = new DictionaryComponent
           this.httpService.getExperiencia(exp.userSql.idusuario)
 
-            .subscribe(x => { //.forEach
+            .subscribe(x => { 
    
               if (x != undefined){
-                //this.experienciaSql = x
+
                 x.forEach( exp =>{
  
                   this.httpService.getDetalle(exp.iddetalles)
                     .subscribe(det =>{
                       
                       this.detalleSql.push(det)
-                      //console.log(det)
+
                       exp.detexp = det
-                      //console.log(exp.detexp)
+
                     })
                     this.experienciaSql.push(exp);
-                    //console.log(exp)
+
                 })
-                //console.log(this.experienciaSql[0])
+
                 this.httpService.getTipo().subscribe(t =>{
                   t.forEach(data =>{
                     this.tipoSql.push(data)
@@ -100,7 +96,7 @@ public datauserlog$: Observable<IUser>;
                     for (var ii=0;ii<this.experienciaSql.length;ii++){
                        if (this.tipoSql[i].idtipo === this.experienciaSql[ii].tipo){
                         this.dict.add(this.tipoSql[i].descripcion,this.experienciaSql[ii])
-                        //console.log(i)
+                       
                       }
                     }
                   }
