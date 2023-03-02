@@ -253,5 +253,9 @@ public datauserlog$: Observable<IUser>;
     this.habilidades[i] = $event;
   }
 
+  public actualizarProy($event:proyecto, i:number){
+    this.proy[i] = $event;
+  }
+
 }
 

@@ -141,6 +141,19 @@ export class ServicehttpService {
     return this.http.get<proyecto[]>(this.Url+"/proyecto/usuario/"+id)
   }
 
+  public obtenerProyecto(ids: number){
+    return this.http.get<proyecto>(this.Url+"/proyecto/buscar/"+ids)
+  }
+
+  public guardarProyecto(pr : proyecto){
+    this.http.post<HttpErrorResponse>(this.Url+"/proyecto/agregar", pr)
+    .subscribe(() =>{    
+    },error => {this.errorHandler(error)
+              console.log(error)
+              })
+              
+  }
+
   //Métodos para contacto
 
   public getContacto(id:number){

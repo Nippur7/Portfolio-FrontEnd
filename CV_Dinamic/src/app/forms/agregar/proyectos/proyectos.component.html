@@ -1,1 +1,50 @@
-<p>proyectos works!</p>
+<ng-template #content let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Habilidades Hard & Soft</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body" *ngIf="proyectosql">
+		<form #usuarioForm ="ngForm">
+			<div class="mb-3">
+				<label>
+					Título					
+					<textarea #modelID [(ngModel)]="proyectosql.titulo" rows="2" cols="50" [ngModelOptions]="{standalone: true}"></textarea>				
+				</label>
+				<label>
+					Descripción
+					
+					<textarea #modelID [(ngModel)]="proyectosql.descripcion" rows="6" cols="50" [ngModelOptions]="{standalone: true}"></textarea>
+				</label>
+                <label>
+					Link
+					
+					<input #modelID [(ngModel)]="proyectosql.link" type="string" size="50" [ngModelOptions]="{standalone: true}">
+				</label>
+                <label>
+					ID experiencia
+					
+					<input #modelID [(ngModel)]="proyectosql.idexperiencia" type="number" [ngModelOptions]="{standalone: true}">
+				</label>
+				
+			</div>			
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-primary" (click)="editProyecto(proyectosql)">
+			Guardar Cambios
+		</button>
+	</div>
+</ng-template>
+
+
+<button class="btn btn-lg btn-outline-primary" (click)="open(content)">
+	<i class="fa-solid fa-pen"></i>
+</button>
+<!--
+<hr />
+
+<pre>{{ closeResult }}</pre>
+<pre>{{usuario | json}}</pre>
+
+-->
+

@@ -141,7 +141,7 @@
                 <h2>Proyectos</h2>
                 <i *ngIf="loggeado" class="fa-solid fa-plus"></i>
             </div>
-            <div *ngFor="let proyecto of proy" class="contenedor__child">
+            <div *ngFor="let proyecto of proy let j = index" class="contenedor__child">
                 <img src="./assets/icons/dinero-05.gif" alt="Dólar Oficial Vs Dólar Blue">
                 <div class="descripcionPuesto">
                     <h3><a href="{{proyecto.link}}" target="_blank">
@@ -152,7 +152,8 @@
                     </p>
                 </div>
                 <div *ngIf="loggeado" class="iconosEdicion">
-                    <i class="fa-solid fa-pen"></i>
+                    <!-- <i class="fa-solid fa-pen"></i> -->
+                    <app-proyectos [idproyecto]="proyecto.idproyecto" (proyEvent)="actualizarProy($event,j)" ></app-proyectos>
                     <i class="fa-solid fa-trash"></i>
                 </div>
             </div>
