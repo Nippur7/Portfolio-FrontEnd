@@ -160,6 +160,18 @@ export class ServicehttpService {
     return this.http.get<contacto>(this.Url+"/contacto/usuario/"+id)
   }
 
+  public obtenerContacto(idc:number){
+    return this.http.get<contacto>(this.Url+"/contacto/buscar/"+idc)
+  }
+  
+  public guardarPuesto(c:contacto){
+    this.http.post<HttpErrorResponse>(this.Url+"/contacto/agregar",c)
+    .subscribe(() =>{    
+    },error => {this.errorHandler(error)
+              console.log(error)
+              })
+  }
+
   //Manejo de errores
   errorHandler(error: HttpErrorResponse){
     if(error.status === 200){

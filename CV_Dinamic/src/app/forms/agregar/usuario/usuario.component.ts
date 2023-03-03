@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormArray, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Usuario } from '../../../Modelo/usuario';
@@ -7,6 +7,7 @@ import { Usuario } from '../../../Modelo/usuario';
 import { ServicehttpService } from 'src/app/service/servicehttp.service';
 import { MasterserviceService } from 'src/app/service/masterservice.service';
 import { UploadimageService } from 'src/app/service/uploadimage.service';
+import { contacto } from 'src/app/Modelo/contacto';
 
 @Component({
   selector: 'app-usuario',
@@ -14,7 +15,8 @@ import { UploadimageService } from 'src/app/service/uploadimage.service';
   styleUrls: ['./usuario.component.scss']
 })
 export class UsuarioComponent implements OnInit {
-
+	@Input() idcontact! : number;
+	@Output() contactEvent = new EventEmitter<contacto>();
 
   closeResult = '';
 
@@ -25,6 +27,7 @@ export class UsuarioComponent implements OnInit {
   iduser : number = -1;
   preview: any;
   archivo: any;
+  public contactosql : contacto;
   //errorStatus : number =0
   //id_user: number = 0;
 	constructor(private modalService: NgbModal,
@@ -34,6 +37,7 @@ export class UsuarioComponent implements OnInit {
 		//private fb: FormBuilder
 		) {
 			this.usuario = new Usuario;
+			this.contactosql = new contacto;
 			//this.userForm = new FormGroup({
 		
 			//	idUser: new FormControl(0,[Validators.required]),
@@ -49,6 +53,10 @@ export class UsuarioComponent implements OnInit {
 		
 
 	open(content: any) {
+		this.serviceHttp.obtenerContacto(this.idcontact)
+    .subscribe(datacontact =>{
+      this.contactosql = datacontact;
+		
 		this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
 			(result) => {
 				this.closeResult = `Closed with: ${result}`;
@@ -58,6 +66,7 @@ export class UsuarioComponent implements OnInit {
 			},
 		);
 		//this.userForm.value.idUser = this.usuario?.id
+	})
 	}
 
 	ngOnInit(){		
@@ -76,9 +85,10 @@ export class UsuarioComponent implements OnInit {
 		}
 	}
 
-	public editUsuario(data: any, image: File){
+	public editUsuario(data: any, image: File, con:contacto){
 		this.serviceHttp.editarUsuario(data, image);
-		
+		this.serviceHttp.guardarPuesto(con);
+		this.contactEvent.emit(con)
 		this.modalService.dismissAll();
 
 	}

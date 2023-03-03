@@ -234,6 +234,13 @@ public datauserlog$: Observable<IUser>;
 
   }
 
+  public actualizarUsuario($event:contacto){
+    this.contact = $event    
+    this.datauserlog$.subscribe(datos =>{
+          this.dataSql = datos.userSql
+        })
+  }
+
   cargarDic(t:Ctipo[],exp :experiencia[]){
   
     for (var ii of t){

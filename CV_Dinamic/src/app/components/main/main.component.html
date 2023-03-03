@@ -74,7 +74,7 @@
                 <!--<button (click)="modificarAbout()" *ngIf="loggeado" class="btn btn-outline-primary" data-bs-toggle="modal">
                     <i class="fa-solid fa-pen"></i>
                 </button>-->
-                <app-usuario *ngIf="loggeado"></app-usuario>
+                <app-usuario *ngIf="loggeado" [idcontact]="contact.idactividad" (contactEvent)="actualizarUsuario($event)" ></app-usuario>
             </div>
         </section>
         <section *ngFor="let tipo of aux ; let ii = index" class="contenedor">

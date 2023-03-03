@@ -41,7 +41,7 @@
                 <label>
 					Acerca de mí
 					<!--<input type="text" formControlName="aboutme">-->
-					<input #modelID [(ngModel)]="usuario.aboutme" type="string" [ngModelOptions]="{standalone: true}">
+					<textarea #modelID [(ngModel)]="usuario.aboutme" rows="6" cols="50" [ngModelOptions]="{standalone: true}"></textarea>
 				</label>
                 <label>
 					Foto
@@ -52,14 +52,48 @@
 					</div>
 					<div *ngIf="preview">
 						<img width="100px" [src]="preview" alt="">
-					</div>
-					
+					</div>					
+				</label>
+				<label>
+					Puesto que busco
+					<!--<input type="text" formControlName="ingreso">                    -->
+					<input #modelID [(ngModel)]="contactosql.puesto" type="string" [ngModelOptions]="{standalone: true}">
+				</label>
+				<label>
+					LinkedIn
+					<!--<input type="text" formControlName="ingreso">                    -->
+					<input #modelID [(ngModel)]="contactosql.link" type="string" [ngModelOptions]="{standalone: true}">
+				</label>
+				<label>
+					GitHub
+					<!--<input type="text" formControlName="ingreso">                    -->
+					<input #modelID [(ngModel)]="contactosql.git" type="string" [ngModelOptions]="{standalone: true}">
+				</label>
+				<label>
+					Email
+					<!--<input type="text" formControlName="ingreso">                    -->
+					<input #modelID [(ngModel)]="contactosql.email" type="string" [ngModelOptions]="{standalone: true}">
+				</label>
+				<label>
+					Celular
+					<!--<input type="text" formControlName="ingreso">                    -->
+					<input #modelID [(ngModel)]="contactosql.celular" type="string" [ngModelOptions]="{standalone: true}">
+				</label>
+				<label>
+					Pais
+					<!--<input type="text" formControlName="ingreso">                    -->
+					<input #modelID [(ngModel)]="contactosql.pais" type="string" [ngModelOptions]="{standalone: true}">
+				</label>
+				<label>
+					Provincia
+					<!--<input type="text" formControlName="ingreso">                    -->
+					<input #modelID [(ngModel)]="contactosql.provincia" type="string" [ngModelOptions]="{standalone: true}">
 				</label>
 			</div>			
 		</form>
 	</div>
 	<div class="modal-footer">
-		<button type="button" class="btn btn-outline-primary" (click)="editUsuario(usuario,archivo)">
+		<button type="button" class="btn btn-outline-primary" (click)="editUsuario(usuario,archivo,contactosql)">
 			Guardar Cambios
 		</button>
 	</div>
