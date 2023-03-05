@@ -35,5 +35,9 @@ export class DictionaryComponent {
           this.dictionary[t][i].iduser = data[0].iduser;
 
         }
+
+        eliminar(t: string, i: number){
+          this.dictionary[t].splice(i,1)
+        }
         
   }

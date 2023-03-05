@@ -4,6 +4,8 @@ import { Ctipo } from 'src/app/Modelo/tipo';
 import { experiencia } from 'src/app/Modelo/experiencia';
 import { detalle } from 'src/app/Modelo/detalle';
 import { ServicehttpService } from 'src/app/service/servicehttp.service';
+import { Usuario } from 'src/app/Modelo/usuario';
+import { MasterserviceService } from 'src/app/service/masterservice.service';
 
 
 
@@ -23,26 +25,54 @@ export class ExperienciaComponent implements AfterViewInit{
   	experienciasql : experiencia;
   	detallesql : detalle;
 	mensajeexp : any[];
+	agregar : boolean = false;
+	usuario : Usuario;
 
 
 
 	constructor(public modalService: NgbModal,
-		private serviceHttp : ServicehttpService
+		private serviceHttp : ServicehttpService,
+		private Mservice : MasterserviceService
 
 		) {
 			this.detallesql = new detalle;
 			this.experienciasql = new experiencia;
 			this.tiposql = new Ctipo;
 			this.mensajeexp = [];
-
+			this.usuario = new Usuario;
 		}
 	ngAfterViewInit(): void {}
 
+	ngOnInit(){		
+		this.Mservice.loggingObservable.subscribe(datos=>{
+		this.usuario = datos.userSql;		
+		})
+	}
 
 
 	//open(content: any) {
 	open() {	
-		console.log(this.message[0]);
+	if (this.message.length === 0){
+		console.log("vamos bien, aqui viene el codigo para agregar")
+		this.agregar = true;
+		this.detallesql = new detalle;
+		this.detallesql.iduser = this.usuario.idusuario
+		this.experienciasql = new experiencia;
+		this.experienciasql.iduser = this.usuario.idusuario
+		this.tiposql = new Ctipo;
+		this.mensajeexp.length = 0;
+		this.modalService.open(this.contentExp, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+			(result) => {
+				this.closeResult = `Closed with: ${result}`;
+			},
+			(reason) => {
+				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+			},
+		);
+
+	}else{
+		//console.log(this.message[0]);
+		this.agregar = false;
 		this.serviceHttp.getTipoId(this.message[0])
 		.subscribe((Tid:Ctipo) =>{
 			this.tiposql = Tid
@@ -69,6 +99,7 @@ export class ExperienciaComponent implements AfterViewInit{
 				})
 			})
 		})
+	}	
 	}
 
 	private getDismissReason(reason: any): string {
@@ -83,14 +114,55 @@ export class ExperienciaComponent implements AfterViewInit{
 	public guardarDatos(exp:experiencia,ti:Ctipo,de:detalle){
 		//console.log(ti)
 		this.mensajeexp.length=0;
-		this.serviceHttp.guardarTipo(ti);
-		this.serviceHttp.guardarDetalle(de);
-		this.serviceHttp.guardarExperiencia(exp);
+		if(this.agregar){
+			//this.serviceHttp.guardarDetalle(de);
+			console.log("agregar detalle ", de)
+			this.serviceHttp.guardarDetalle(de);
+			var detUsu : detalle[] = []
+			this.serviceHttp.obtenerDetalles(this.usuario.idusuario)
+			.subscribe((d)=>{
+				//detUsu.push(d)
+				console.log(d)
+				detUsu = d
+				console.log(detUsu.slice(-1)[0])
+				exp.iddetalles = detUsu.slice(-1)[0].iddetalles
+				//exp.detexp = detUsu.slice(-1)[0];
+				this.serviceHttp.getTipo()
+				.subscribe(tt =>{
+					var found :boolean = false;
+					tt.forEach(ttt=>{
+						
+						if(ttt.descripcion === ti.descripcion){
+							ti.idtipo = ttt.idtipo;
+							found = true
+							//break;
+						}
+						
+					})
+					if(found){
+						console.log("no se agrega otro tipo")
+					}else{
+						console.log("se agrega otro tipo")
+					}
+					exp.tipo = ti.idtipo
+					this.serviceHttp.guardarExperiencia(exp);
+				})
+				
+
+			})
+			//console.log(detUsu.slice(-1)[0])
+		}else{
+			
+			this.serviceHttp.guardarTipo(ti);
+			this.serviceHttp.guardarDetalle(de);
+			this.serviceHttp.guardarExperiencia(exp);
+		}
 		this.mensajeexp.push(exp);
 		this.mensajeexp.push(ti)
 		this.mensajeexp.push(de)
 		this.actexpEvent.emit(this.mensajeexp)
 		//console.log(this.mensajeexp)
 		this.modalService.dismissAll();
+	
 	}
 }

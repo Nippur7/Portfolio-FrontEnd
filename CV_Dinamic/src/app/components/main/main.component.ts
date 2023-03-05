@@ -192,16 +192,32 @@ public datauserlog$: Observable<IUser>;
     //this.Mservice.Logged();
   }
 
-  public eliminarExp(){
-    console.log("boton eliminar experiencia")
+  public eliminarExp(t: string,index :number){
+    console.log("boton eliminar experiencia" ,index, t)
+    console.log(this.dict.get(t))
+    this.dict.eliminar(t,index)
+    console.log(this.dict.get(t))
   }
 
   eliminarDetalle(){
     console.log("eliminar detalle")
   }
 
-  agregarExp(){
-    console.log("Agregar experiencia")
+  agregarExp(t: string){
+    console.log("Agregar experiencia ",t)
+    this.data.length = 0;
+    this.experienciaComponent.open();
+  }
+
+  agregarExperiencia($event:any[]){
+    var ind : number = this.dict.get($event[1].descripcion).length;
+    console.log("el indice a agregar es ",ind)
+    console.log($event)
+    //this.dict.mod($event[1].descripcion,ind,$event)
+    $event[0].detexp = $event[2]
+    this.dict.add($event[1].descripcion,$event[0])
+    console.log(this.dict)
+
   }
 
   public modificarExp(index: string, index2 : number, diccionario :any){
@@ -258,6 +274,11 @@ public datauserlog$: Observable<IUser>;
   
   public actualizarSkill($event:skill, i:number){
     this.habilidades[i] = $event;
+  }
+
+  public agregarSkill($hab: skill){
+    this.habilidades.push($hab)
+    console.log("agregar habilidad")
   }
 
   public actualizarProy($event:proyecto, i:number){

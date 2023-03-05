@@ -1,6 +1,10 @@
 <ng-template #contentExp let-modal>
-	<div class="modal-header">
+	<div *ngIf="!agregar" class="modal-header">
 		<h4 class="modal-title" id="modal-basic-title">Modificar Experiencia</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div *ngIf="agregar" class="modal-header" >
+		<h4 class="modal-title" id="modal-basic-title">Agregar Experiencia</h4>
 		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
 	</div>
 	<div class="modal-body" *ngIf="tiposql">

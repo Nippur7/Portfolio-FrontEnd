@@ -32,13 +32,13 @@
         <nav id="navbar">
             <img src="../assets/icons/APLogo-20-20.png" alt="Logo de Argentina programa" class="logoHeader">
             <ul>
-                <li><a href="https://api.whatsapp.com/send?phone={{contact.celular}}&text=%C2%A1Hola%20{{dataSql.nombre}}!%20Me%20gustar%C3%ADa%20ponerme%20en%20contacto%20para%20conocer%20m%C3%A1s%20sobre%20tu%20trabajo"
+                <li *ngIf="contact.celular" ><a href="https://api.whatsapp.com/send?phone={{contact.celular}}&text=%C2%A1Hola%20{{dataSql.nombre}}!%20Me%20gustar%C3%ADa%20ponerme%20en%20contacto%20para%20conocer%20m%C3%A1s%20sobre%20tu%20trabajo"
                         target="_blank"><i class="fa-brands fa-whatsapp"></i><span> Whatsapp</span></a></li>
-                <li><a href="mailto:{{contact.email}}" target="_blank"><i class="fa-solid fa-envelope"></i>
+                <li *ngIf="contact.email"><a href="mailto:{{contact.email}}" target="_blank"><i class="fa-solid fa-envelope"></i>
                         <span> Email</span></a></li>
-                <li><a href="{{contact.git}}" id="profile-link" target="_blank"><i
+                <li *ngIf="contact.git"><a href="{{contact.git}}" id="profile-link" target="_blank"><i
                             class="fa-brands fa-github"></i><span> Github</span></a></li>
-                <li><a href="{{contact.link}}" target="_blank"><i class="fa-brands fa-linkedin"></i>
+                <li *ngIf="contact.link"><a href="{{contact.link}}" target="_blank"><i class="fa-brands fa-linkedin"></i>
                         <span> Linkedin</span></a></li>                
                 <li><a routerLink="/login" *ngIf="!loggeado"><i class="fa fa-sign-in"></i>
                         <span> Login</span></a></li>
@@ -80,9 +80,13 @@
         <section *ngFor="let tipo of aux ; let ii = index" class="contenedor">
             <div *ngIf="dict.get(tipo)" class="contenedor__barraTitulo">
                 <h2>{{tipo}}</h2>
-                <button *ngIf="loggeado" class="btn btn-outline-primary">
+               
+            </div>
+            <div>
+                <button *ngIf="loggeado" class="btn btn-outline-primary" (click)="agregarExp(tipo)">
                     <i class="fa-solid fa-plus"></i>
                 </button>
+                <app-experiencia [message]="data" (actexpEvent)="agregarExperiencia($event)"></app-experiencia>
             </div>
             <div *ngIf="dict.get(tipo)" >
             <div *ngFor="let exp of dict.get(tipo); let i = index" class="contenedor__child">
@@ -103,7 +107,7 @@
                             <app-experiencia [message]="data" (actexpEvent)="actualizarExp($event)"></app-experiencia>
                         <!-- </ng-template> -->
                     </button>
-                    <button class="btn btn-outline-primary" (click)="eliminarExp()">
+                    <button class="btn btn-outline-primary" (click)="eliminarExp(tipo,i)">
                         <i class="fa-solid fa-trash"></i>
                     </button>
                 </div>                
@@ -115,7 +119,9 @@
         <section *ngIf="habilidades" class="contenedor">
             <div class="contenedor__barraTitulo">
                 <h2>Hard y soft skills</h2>
-                <button *ngIf="loggeado"><i class="fa-solid fa-plus"></i></button>
+                <button *ngIf="loggeado" class="btn btn-outline-primary" (click)="agregarSkill(habilidades[0])">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
             </div>
             <div *ngFor=" let skills of habilidades let i = index" class="skills">
                 <div>
@@ -124,14 +130,15 @@
                         <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" aria-valuemin="0.0" aria-valuemax="100.0" role="progressbar" [style.width]="skills.porcentaje +'%'">
                              {{skills.detalle}} - {{skills.porcentaje}}%
                         </div>
-                    </div>
-                    <div *ngIf="loggeado" class="iconosEdicion">
-                        <!-- <i class="fa-solid fa-pen"></i> -->
-                        <app-skill [idskill]="skills.idskill" (messageEvent)="actualizarSkill($event,i)"></app-skill>
-                        <i class="fa-solid fa-trash"></i>
-                    </div>
+                    </div>                    
                 </div>
-
+                <div *ngIf="loggeado" class="iconosEdicion">
+                    <!-- <i class="fa-solid fa-pen"></i> -->
+                    <app-skill [idskill]="skills.idskill" (messageEvent)="actualizarSkill($event,i)"></app-skill>
+                    <button>
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>
                 
             </div>
             
@@ -139,7 +146,9 @@
         <section *ngIf="proy" class="contenedor">
             <div class="contenedor__barraTitulo">
                 <h2>Proyectos</h2>
-                <i *ngIf="loggeado" class="fa-solid fa-plus"></i>
+                <button>
+                    <i *ngIf="loggeado" class="fa-solid fa-plus"></i>
+                </button>
             </div>
             <div *ngFor="let proyecto of proy let j = index" class="contenedor__child">
                 <img src="./assets/icons/dinero-05.gif" alt="Dólar Oficial Vs Dólar Blue">

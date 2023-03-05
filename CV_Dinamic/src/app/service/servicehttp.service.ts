@@ -100,6 +100,10 @@ export class ServicehttpService {
               })
   }
 
+  public obtenerDetalles(idu:number){
+    return this.http.get<detalle[]>(this.Url+"/detalle/usuario/"+idu)
+  }
+
   //Método para Tipo
 
   public getTipo(){
