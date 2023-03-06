@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AngularFireModule } from '@angular/fire/compat'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { HttpClientModule } from '@angular/common/http'
 
 import { AppComponent } from './app.component';
 import { SliderEdComponent } from './components/slider-ed/slider-ed.component';
@@ -20,6 +21,12 @@ import { UsuarioComponent } from './forms/agregar/usuario/usuario.component';
 import { RecuperarComponent } from './components/users/recuperar/recuperar.component';
 import { environment } from 'src/environments/environment';
 import { SpinnerComponent } from './components/spinner/spinner.component';
+import { MasterserviceService } from './service/masterservice.service';
+import { DictionaryComponent } from './Modelo/diccionario';
+import { ModalServService } from './service/modal-serv.service';
+import { SkillComponent } from './forms/agregar/skill/skill.component';
+import { ProyectosComponent } from './forms/agregar/proyectos/proyectos.component';
+
 
 
 
@@ -37,18 +44,24 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     ExperienciaComponent,
     UsuarioComponent,
     RecuperarComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    SkillComponent,
+    ProyectosComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
     ReactiveFormsModule,
+    //MasterserviceService,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     BrowserAnimationsModule, // required animations module
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    HttpClientModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [MasterserviceService, DictionaryComponent,
+    ModalServService, ExperienciaComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

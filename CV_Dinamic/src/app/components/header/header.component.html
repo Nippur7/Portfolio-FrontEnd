@@ -1,1 +1,57 @@
-<p>header works!</p>
+<!DOCTYPE html>
+<html lang="es">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../assets/icons/cv.png" type="image/x-icon">
+    <!-- CSS -->
+    <!--<link rel="stylesheet" href="./main.component.scss"> 
+    <link rel="stylesheet" href="./bootstrap/bootstrap.min.css" crossorigin="anonymous">-->
+    <!--<link rel="stylesheet" href="../.. bootstrap-theme.min.css" crossorigin="anonymous">
+    -->
+    <script src="./bootstrap/bootstrap.min.js" crossorigin="anonymous"></script>
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" type="text/css">
+    <script src="https://kit.fontawesome.com/94c0117dd6.js" crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" rel="stylesheet">
+  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    
+
+    
+    <title>Carlos A. Matich Cuezzo | Personal Portfolio</title>
+
+  </head>
+
+<body>
+    <header id="welcome-section">
+        <nav id="navbar">
+            <img src="../assets/icons/APLogo-20-20.png" alt="Logo de Argentina programa" class="logoHeader">
+            <ul>
+                <li><a href="https://api.whatsapp.com/send?phone=+543885914783&text=%C2%A1Hola%20Tony!%20Me%20gustar%C3%ADa%20ponerme%20en%20contacto%20para%20conocer%20m%C3%A1s%20sobre%20tu%20trabajo"
+                        target="_blank"><i class="fa-brands fa-whatsapp"></i><span> Whatsapp</span></a></li>
+                <li><a href="mailto:tonymatich@hotmail.com" target="_blank"><i class="fa-solid fa-envelope"></i>
+                        <span> Email</span></a></li>
+                <li><a href="https://github.com/Nippur7" id="profile-link" target="_blank"><i
+                            class="fa-brands fa-github"></i><span> Github</span></a></li>
+                <li><a href="https://www.linkedin.com/in/carlosmatich/" target="_blank"><i class="fa-brands fa-linkedin"></i>
+                        <span> Linkedin</span></a></li>                
+                <li><a routerLink="/login" *ngIf="!loggeado"><i class="fa fa-sign-in"></i>
+                        <span> Login</span></a></li>
+                <li><button (click)="logOut()"  *ngIf="loggeado" class="btn btn-outline-primary"><i class="fa fa-sign-out"></i>
+                        <span> LogOut</span></button></li>                
+            </ul>
+
+        </nav>
+        <div class="welcome">
+            <h1>Carlos Matich</h1>
+            <h2>Data Scientist</h2>
+        </div>
+    </header>
+</body>
+
+</html>

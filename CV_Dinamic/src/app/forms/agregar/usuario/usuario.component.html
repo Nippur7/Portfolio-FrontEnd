@@ -1,1 +1,112 @@
-<p>usuario works!</p>
+<ng-template #content let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Datos del Usuario</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body" *ngIf="usuario">
+		<form #usuarioForm ="ngForm">
+			<div class="mb-3">
+				<label>
+					Id del usuario
+					
+					<input #modelID [(ngModel)]="usuario.idusuario" type="number" [ngModelOptions]="{standalone: true}">
+					
+					<!--<input type="number" formControlName="idUser">-->
+				</label>
+				<label>
+					Apellido
+					<!--<input type="text" formControlName="apellido">-->
+					<input #modelID [(ngModel)]="usuario.apellido" type="string" [ngModelOptions]="{standalone: true}">
+				</label>
+				<label>
+					Nombre
+					<!--<input type="text" formControlName="nombre">-->
+					<input #modelID [(ngModel)]="usuario.nombre" type="string" [ngModelOptions]="{standalone: true}">
+				</label>
+				<label>
+					Correo
+					<!--<input type="email" formControlName="email">-->
+					<input #modelID [(ngModel)]="usuario.email" type="email" [ngModelOptions]="{standalone: true}">
+				</label>
+				<label>
+					Contraseña
+					<!--<input type="password" formControlName="password">-->
+					<input #modelID [(ngModel)]="usuario.password" type="password" [ngModelOptions]="{standalone: true}">
+				</label>
+                <label>
+					Fecha de Ingreso
+					<!--<input type="text" formControlName="ingreso">                    -->
+					<input #modelID [(ngModel)]="usuario.ingreso" type="date" [ngModelOptions]="{standalone: true}">
+				</label>
+                <label>
+					Acerca de mí
+					<!--<input type="text" formControlName="aboutme">-->
+					<textarea #modelID [(ngModel)]="usuario.aboutme" rows="6" cols="50" [ngModelOptions]="{standalone: true}"></textarea>
+				</label>
+                <label>
+					Foto
+					<input #modelID [(ngModel)]="usuario.picture" type="string" [ngModelOptions]="{standalone: true}">
+					<!--<input type="text" formControlName="imagen"> -->
+					<div>
+						<input (change)="convertirFile($event)" type="file">
+					</div>
+					<div *ngIf="preview">
+						<img width="100px" [src]="preview" alt="">
+					</div>					
+				</label>
+				<label>
+					Puesto que busco
+					<!--<input type="text" formControlName="ingreso">                    -->
+					<input #modelID [(ngModel)]="contactosql.puesto" type="string" [ngModelOptions]="{standalone: true}">
+				</label>
+				<label>
+					LinkedIn
+					<!--<input type="text" formControlName="ingreso">                    -->
+					<input #modelID [(ngModel)]="contactosql.link" type="string" [ngModelOptions]="{standalone: true}">
+				</label>
+				<label>
+					GitHub
+					<!--<input type="text" formControlName="ingreso">                    -->
+					<input #modelID [(ngModel)]="contactosql.git" type="string" [ngModelOptions]="{standalone: true}">
+				</label>
+				<label>
+					Email
+					<!--<input type="text" formControlName="ingreso">                    -->
+					<input #modelID [(ngModel)]="contactosql.email" type="string" [ngModelOptions]="{standalone: true}">
+				</label>
+				<label>
+					Celular
+					<!--<input type="text" formControlName="ingreso">                    -->
+					<input #modelID [(ngModel)]="contactosql.celular" type="string" [ngModelOptions]="{standalone: true}">
+				</label>
+				<label>
+					Pais
+					<!--<input type="text" formControlName="ingreso">                    -->
+					<input #modelID [(ngModel)]="contactosql.pais" type="string" [ngModelOptions]="{standalone: true}">
+				</label>
+				<label>
+					Provincia
+					<!--<input type="text" formControlName="ingreso">                    -->
+					<input #modelID [(ngModel)]="contactosql.provincia" type="string" [ngModelOptions]="{standalone: true}">
+				</label>
+			</div>			
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-primary" (click)="editUsuario(usuario,archivo,contactosql)">
+			Guardar Cambios
+		</button>
+	</div>
+</ng-template>
+
+
+<button class="btn btn-lg btn-outline-primary" (click)="open(content)">
+	<i class="fa-solid fa-pen"></i>
+</button>
+<!--
+<hr />
+
+<pre>{{ closeResult }}</pre>
+<pre>{{usuario | json}}</pre>
+
+-->

@@ -1,1 +1,61 @@
-<p>experiencia works!</p>
+<ng-template #contentExp let-modal>
+	<div *ngIf="!agregar" class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Modificar Experiencia</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div *ngIf="agregar" class="modal-header" >
+		<h4 class="modal-title" id="modal-basic-title">Agregar Experiencia</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body" *ngIf="tiposql">
+		<form #experienciaForm = ngForm >
+			<div class="mb-3">
+				<label>
+					Tipo de Actividad					
+					<input #modelID [(ngModel)]="tiposql.descripcion" type="string" [ngModelOptions]="{standalone: true}">					
+				</label>
+				<label>
+					Experiencia
+					<input #modelID [(ngModel)]="experienciasql.lugar" type="string" [ngModelOptions]="{standalone: true}">
+				</label>
+				<label>
+					Inicio
+					<input #modelID [(ngModel)]="experienciasql.inicio" type="date" [ngModelOptions]="{standalone: true}">
+					<!-- <input type="date" formControlName="inicio" ngbDatepicker name="dp" #dp="ngbDatepicker"> -->
+				</label>
+				<label>
+					Fin
+					<input #modelID [(ngModel)]="experienciasql.fin" type="date" [ngModelOptions]="{standalone: true}">
+					<!-- <input type="date" formControlName="fin" ngbDatepicker name="dp2" #dp2="ngbDatepicker"> -->
+				</label>
+				<label>
+					Observaciones
+					<!-- <input type="text" formControlName="obs"> -->
+					<input #modelID [(ngModel)]="experienciasql.obs" type="string" [ngModelOptions]="{standalone: true}">
+				</label>
+				<label>
+					Detalles Puesto
+					<!-- <input type="text" formControlName="obs"> -->
+					<input #modelID [(ngModel)]="detallesql.puesto" type="string" [ngModelOptions]="{standalone: true}">
+				</label>
+				<label>
+					Actividades Detalladas
+					<!-- <input type="text" formControlName="obs"> -->
+					<input #modelID [(ngModel)]="detallesql.descripcion" type="string" [ngModelOptions]="{standalone: true}">
+				</label>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-dark" (click)="guardarDatos(experienciasql,tiposql,detallesql)">Guardar</button>
+	</div>
+</ng-template>
+
+
+<!-- <button (click)="open(content)"></button>
+
+<hr />
+
+<pre>{{ closeResult }}</pre> -->
+<!--
+-->
