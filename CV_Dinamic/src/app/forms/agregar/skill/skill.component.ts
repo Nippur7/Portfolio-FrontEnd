@@ -12,6 +12,7 @@ import { ServicehttpService } from 'src/app/service/servicehttp.service';
 })
 export class SkillComponent {
 	@Input() idskill! : number;
+	@Input() iconos!:string[];
 	@Output() messageEvent = new EventEmitter<skill>();
   closeResult = '';
   public habilidad : skill;
@@ -26,7 +27,10 @@ export class SkillComponent {
   }
   
   open(content: any) {
-    this.serviceHttp.obtenerSkill(this.idskill)
+    if(this.idskill >=0){
+
+	
+	this.serviceHttp.obtenerSkill(this.idskill)
     .subscribe(dataskill =>{
       this.habilidad = dataskill
         
@@ -42,6 +46,18 @@ export class SkillComponent {
 		  );
 	  	//this.userForm.value.idUser = this.usuario?.id
     })
+	}else{
+		this.habilidad.iduser = this.usuario.idusuario;
+
+		this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+			(result) => {
+				this.closeResult = `Closed with: ${result}`;
+			},
+			(reason) => {
+				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+			},
+		);
+	}
 	}
 
 	ngOnInit(){		
@@ -62,11 +78,16 @@ export class SkillComponent {
 
 	public editSkill(habi : skill){
 		//console.log(habi)
-		this.serviceHttp.guardarSkill(habi)
+		this.serviceHttp.guardarSkill(habi);
+		this.serviceHttp.getSkills(habi.iduser)
+		.subscribe(resp =>{
+			console.log(resp)
+			habi.idskill = resp.slice(-1)[0].idskill
+			this.messageEvent.emit(habi);		
+			this.modalService.dismissAll();
+		})
 		
-		this.messageEvent.emit(habi)
 		
-		this.modalService.dismissAll();
 
 	}
   

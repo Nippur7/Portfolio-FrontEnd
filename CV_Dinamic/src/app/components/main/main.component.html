@@ -119,9 +119,14 @@
         <section *ngIf="habilidades" class="contenedor">
             <div class="contenedor__barraTitulo">
                 <h2>Hard y soft skills</h2>
-                <button *ngIf="loggeado" class="btn btn-outline-primary" (click)="agregarSkill(habilidades[0])">
+                <!-- <button *ngIf="loggeado" class="btn btn-outline-primary" (click)="agregarSkill(habilidades[0])">
                     <i class="fa-solid fa-plus"></i>
-                </button>
+                </button> -->
+                
+                    <!-- <i class="fa-solid fa-plus"></i>                     -->
+                    <app-skill *ngIf="loggeado" [idskill]="-1" [iconos]="['fa-solid', 'fa-plus']" (messageEvent)="agregarSkill($event)"></app-skill>
+                
+                
             </div>
             <div *ngFor=" let skills of habilidades let i = index" class="skills">
                 <div>
@@ -134,8 +139,12 @@
                 </div>
                 <div *ngIf="loggeado" class="iconosEdicion">
                     <!-- <i class="fa-solid fa-pen"></i> -->
-                    <app-skill [idskill]="skills.idskill" (messageEvent)="actualizarSkill($event,i)"></app-skill>
-                    <button>
+                    
+                        <!-- <i class="fa-solid fa-pen"></i> -->
+                        <app-skill [idskill]="skills.idskill" [iconos]="['fa-solid', 'fa-pen']" (messageEvent)="actualizarSkill($event,i)"></app-skill>
+                   
+                    
+                    <button class="btn btn-outline-primary" (click)="eliminarSkill(i,skills.idskill)">
                         <i class="fa-solid fa-trash"></i>
                     </button>
                 </div>
@@ -146,9 +155,12 @@
         <section *ngIf="proy" class="contenedor">
             <div class="contenedor__barraTitulo">
                 <h2>Proyectos</h2>
-                <button>
+                <!-- <button>
                     <i *ngIf="loggeado" class="fa-solid fa-plus"></i>
-                </button>
+                </button> -->
+                <div *ngIf="loggeado" >
+                    <app-proyectos [idproyecto]="-1" [iconos]="['fa-solid', 'fa-plus']" (proyEvent)="agregarProy($event)" ></app-proyectos>
+                </div>
             </div>
             <div *ngFor="let proyecto of proy let j = index" class="contenedor__child">
                 <img src="./assets/icons/dinero-05.gif" alt="Dólar Oficial Vs Dólar Blue">
@@ -162,8 +174,11 @@
                 </div>
                 <div *ngIf="loggeado" class="iconosEdicion">
                     <!-- <i class="fa-solid fa-pen"></i> -->
-                    <app-proyectos [idproyecto]="proyecto.idproyecto" (proyEvent)="actualizarProy($event,j)" ></app-proyectos>
+                    <app-proyectos [idproyecto]="proyecto.idproyecto" [iconos]="['fa-solid', 'fa-pen']" (proyEvent)="actualizarProy($event,j)" ></app-proyectos>
+                    <button class="btn btn-outline-primary" (click)="eliminarProy(j,proyecto.idproyecto)">
+                        <!-- <app-toast-component></app-toast-component> -->
                     <i class="fa-solid fa-trash"></i>
+                    </button>
                 </div>
             </div>
  

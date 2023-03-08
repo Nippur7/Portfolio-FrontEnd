@@ -66,9 +66,13 @@
 </ng-template>
 
 
-<button class="btn btn-lg btn-outline-primary" (click)="open(content)">
-	<i class="fa-solid fa-pen"></i>
+<button  class="btn btn-lg btn-outline-primary" (click)="open(content)">
+	<div [ngClass]="iconos"></div>
+	
+	<!-- <i class="fa-solid fa-pen"></i> -->
 </button>
+
+
 <!--
 <hr />
 

@@ -1,8 +1,8 @@
 import { Component, OnInit, Output, ViewChild } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
+import { ActiveToast, IndividualConfig, ToastrService, ToastrModule, Toast } from 'ngx-toastr';
+import { Observable, take } from 'rxjs';
 import { Usuario } from 'src/app/Modelo/usuario';
 import { IUser, MasterserviceService } from 'src/app/service/masterservice.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -15,6 +15,7 @@ import { skill } from 'src/app/Modelo/skill';
 import { proyecto } from 'src/app/Modelo/proyecto';
 import { contacto } from 'src/app/Modelo/contacto';
 import { ExperienciaComponent } from 'src/app/forms/agregar/experiencia/experiencia.component';
+import { ToastComponentComponent } from '../toast-component/toast-component.component';
 
 
 
@@ -51,6 +52,7 @@ public datauserlog$: Observable<IUser>;
   constructor(private afAuth :AngularFireAuth,
     private router: Router,
     private toastr: ToastrService,
+    private toastrMod: ToastrModule,
     private Mservice : MasterserviceService,
     private httpService : ServicehttpService,
     private modalService: NgbModal,
@@ -116,8 +118,8 @@ public datauserlog$: Observable<IUser>;
              
             })
             this.httpService.getProyectos(exp.userSql.idusuario)
-            .subscribe(p =>{
-              this.proy = p;
+            .subscribe(pp =>{
+              this.proy = pp;
             
             })
             this.httpService.getContacto(exp.userSql.idusuario)
@@ -210,13 +212,13 @@ public datauserlog$: Observable<IUser>;
   }
 
   agregarExperiencia($event:any[]){
-    var ind : number = this.dict.get($event[1].descripcion).length;
-    console.log("el indice a agregar es ",ind)
-    console.log($event)
+    //var ind : number = this.dict.get($event[1].descripcion).length;
+    //console.log("el indice a agregar es ",ind)
+    //console.log($event)
     //this.dict.mod($event[1].descripcion,ind,$event)
     $event[0].detexp = $event[2]
     this.dict.add($event[1].descripcion,$event[0])
-    console.log(this.dict)
+    //console.log(this.dict)
 
   }
 
@@ -281,8 +283,59 @@ public datauserlog$: Observable<IUser>;
     console.log("agregar habilidad")
   }
 
+  public eliminarSkill(ind : number, id:number){
+    
+    this.toastr.warning('¿Desea eliminar el ítem?', '¡Clickéame para confirmar! // Cerrar para cancelar',
+    {
+      closeButton: true,
+      newestOnTop: false,
+      progressBar: false,
+      positionClass: 'toast-bottom-full-width'
+
+    })
+    .onTap
+    .pipe(take(1))
+    .subscribe(() => {
+      console.log('Proyecto id', id);
+      this.httpService.eliminarSkill(id)      
+      this.habilidades.splice(ind,1)
+      
+      
+    });
+    
+    
+  }
+
   public actualizarProy($event:proyecto, i:number){
     this.proy[i] = $event;
+  }
+
+  public agregarProy($event:proyecto){
+    this.proy.push($event)
+    console.log("agregar proyecto")
+  }
+
+  public eliminarProy(ind:number, proye: number){
+    
+    this.toastr.warning('¿Desea eliminar el ítem?', '¡Clickéame para confirmar! // Cerrar para cancelar',
+    {
+      closeButton: true,
+      newestOnTop: false,
+      progressBar: false,
+      positionClass: 'toast-bottom-full-width'
+
+    })
+    .onTap
+    .pipe(take(1))
+    .subscribe(() => {
+      console.log('Proyecto id', proye);
+      this.httpService.eliminarProy(proye)      
+      this.proy.splice(ind,1);
+      
+      
+    });
+
+    
   }
 
 }
