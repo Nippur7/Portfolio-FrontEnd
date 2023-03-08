@@ -26,6 +26,7 @@ import { DictionaryComponent } from './Modelo/diccionario';
 import { ModalServService } from './service/modal-serv.service';
 import { SkillComponent } from './forms/agregar/skill/skill.component';
 import { ProyectosComponent } from './forms/agregar/proyectos/proyectos.component';
+import { ToastComponentComponent } from './components/toast-component/toast-component.component';
 
 
 
@@ -46,7 +47,8 @@ import { ProyectosComponent } from './forms/agregar/proyectos/proyectos.componen
     RecuperarComponent,
     SpinnerComponent,
     SkillComponent,
-    ProyectosComponent
+    ProyectosComponent,
+    ToastComponentComponent
   ],
   imports: [
     BrowserModule,

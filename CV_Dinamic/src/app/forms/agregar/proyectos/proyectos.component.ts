@@ -14,6 +14,7 @@ import { ServicehttpService } from 'src/app/service/servicehttp.service';
 export class ProyectosComponent {
 
 	@Input() idproyecto! : number;
+  @Input() iconos!: string[];
 	@Output() proyEvent = new EventEmitter<proyecto>();
   closeResult = '';
   proyectosql : proyecto;
@@ -28,6 +29,10 @@ export class ProyectosComponent {
     }
 
     open(content: any) {
+      if(this.idproyecto >= 0){
+
+      
+      
       this.serviceHttp.obtenerProyecto(this.idproyecto)
       .subscribe(dataproy =>{
         this.proyectosql = dataproy
@@ -44,6 +49,18 @@ export class ProyectosComponent {
         );
         //this.userForm.value.idUser = this.usuario?.id
       })
+     }else{
+      this.proyectosql.iduser = this.usuario.idusuario
+      
+      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+        (result) => {
+          this.closeResult = `Closed with: ${result}`;
+        },
+        (reason) => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        },
+      );
+     }
     }
   
     ngOnInit(){		
@@ -65,10 +82,13 @@ export class ProyectosComponent {
     public editProyecto(proye : proyecto){
       //console.log(habi)
       this.serviceHttp.guardarProyecto(proye)
-      
-      this.proyEvent.emit(proye)
-      
-      this.modalService.dismissAll();
+      this.serviceHttp.getProyectos(proye.iduser)
+      .subscribe(resp=>{
+        proye.idproyecto = resp.slice(-1)[0].idproyecto
+        this.proyEvent.emit(proye)      
+        this.modalService.dismissAll();
+      })
+
   
     }
 

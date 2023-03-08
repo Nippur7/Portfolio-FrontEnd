@@ -116,7 +116,7 @@ export class ExperienciaComponent implements AfterViewInit{
 		this.mensajeexp.length=0;
 		if(this.agregar){
 			//this.serviceHttp.guardarDetalle(de);
-			console.log("agregar detalle ", de)
+			//console.log("agregar detalle ", de)
 			this.serviceHttp.guardarDetalle(de);
 			var detUsu : detalle[] = []
 			this.serviceHttp.obtenerDetalles(this.usuario.idusuario)
@@ -124,7 +124,7 @@ export class ExperienciaComponent implements AfterViewInit{
 				//detUsu.push(d)
 				console.log(d)
 				detUsu = d
-				console.log(detUsu.slice(-1)[0])
+				//console.log(detUsu.slice(-1)[0])
 				exp.iddetalles = detUsu.slice(-1)[0].iddetalles
 				//exp.detexp = detUsu.slice(-1)[0];
 				this.serviceHttp.getTipo()

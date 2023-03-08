@@ -139,14 +139,27 @@ export class ServicehttpService {
               })
   }
 
+  public eliminarSkill(ids: number){
+    this.http.delete(this.Url+"/skill/borrar/"+ids)
+    .subscribe(() =>{    
+    },error => {this.errorHandler(error)
+              console.log(error)
+              })
+
+  }
+
   //Métodos para proyecto
 
   public getProyectos(id:number){
     return this.http.get<proyecto[]>(this.Url+"/proyecto/usuario/"+id)
+  
   }
 
   public obtenerProyecto(ids: number){
     return this.http.get<proyecto>(this.Url+"/proyecto/buscar/"+ids)
+
+
+
   }
 
   public guardarProyecto(pr : proyecto){
@@ -156,6 +169,14 @@ export class ServicehttpService {
               console.log(error)
               })
               
+  }
+
+  public eliminarProy(id: number){
+    this.http.delete<HttpErrorResponse>(this.Url+"/proyecto/borrar/"+id)
+    .subscribe(() =>{    
+    },error => {this.errorHandler(error)
+              console.log(error)
+              })
   }
 
   //Métodos para contacto
@@ -179,10 +200,14 @@ export class ServicehttpService {
   //Manejo de errores
   errorHandler(error: HttpErrorResponse){
     if(error.status === 200){
-      this.toastr.success('Operación Realizada','Exito');
+      this.toastr.success('Operación Realizada','Exito',{
+        positionClass: 'toast-bottom-center'
+      });
       
      }else{
-      this.toastr.error('Operación NO exitosa');
+      this.toastr.error('Operación NO exitosa', 'Error',{
+        positionClass: 'toast-bottom-center'
+      });
       
      }
      return observableThrowError(error.status);
