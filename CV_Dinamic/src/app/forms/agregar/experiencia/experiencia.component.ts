@@ -27,6 +27,7 @@ export class ExperienciaComponent implements AfterViewInit{
 	mensajeexp : any[];
 	agregar : boolean = false;
 	usuario : Usuario;
+	listaTipo : Ctipo[];
 
 
 
@@ -40,6 +41,7 @@ export class ExperienciaComponent implements AfterViewInit{
 			this.tiposql = new Ctipo;
 			this.mensajeexp = [];
 			this.usuario = new Usuario;
+			this.listaTipo = [];
 		}
 	ngAfterViewInit(): void {}
 
@@ -61,14 +63,20 @@ export class ExperienciaComponent implements AfterViewInit{
 		this.experienciasql.iduser = this.usuario.idusuario
 		this.tiposql = new Ctipo;
 		this.mensajeexp.length = 0;
-		this.modalService.open(this.contentExp, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-			(result) => {
-				this.closeResult = `Closed with: ${result}`;
-			},
-			(reason) => {
-				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-			},
-		);
+		this.serviceHttp.getTipo()
+		.subscribe(tipoArray =>{
+			this.listaTipo = tipoArray
+			this.listaTipo[0].descripcion = tipoArray[0].descripcion;
+			this.modalService.open(this.contentExp, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+				(result) => {
+					this.closeResult = `Closed with: ${result}`;
+				},
+				(reason) => {
+					this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+				},
+			);
+		})
+		
 
 	}else{
 		//console.log(this.message[0]);
@@ -76,6 +84,8 @@ export class ExperienciaComponent implements AfterViewInit{
 		this.serviceHttp.getTipoId(this.message[0])
 		.subscribe((Tid:Ctipo) =>{
 			this.tiposql = Tid
+			this.listaTipo.push(Tid)
+			this.listaTipo[0].descripcion = Tid.descripcion;
 			//console.log(Tid)
 			this.serviceHttp.getExpId(this.message[1])
 			.subscribe((Tex :experiencia) =>{
@@ -124,7 +134,7 @@ export class ExperienciaComponent implements AfterViewInit{
 				//detUsu.push(d)
 				console.log(d)
 				detUsu = d
-				//console.log(detUsu.slice(-1)[0])
+				console.log(detUsu.slice(-1)[0])
 				exp.iddetalles = detUsu.slice(-1)[0].iddetalles
 				//exp.detexp = detUsu.slice(-1)[0];
 				this.serviceHttp.getTipo()
@@ -145,7 +155,22 @@ export class ExperienciaComponent implements AfterViewInit{
 						console.log("se agrega otro tipo")
 					}
 					exp.tipo = ti.idtipo
-					this.serviceHttp.guardarExperiencia(exp);
+					exp.iduser = this.usuario.idusuario
+					
+					this.serviceHttp.guardarExperiencia(exp)
+					.then(()=>{
+						this.serviceHttp.getExperiencia(this.usuario.idusuario)
+						.subscribe((d)=>{
+				
+						console.log(d)						
+						console.log(d.slice(-1)[0])
+						exp.idexperiencia = d.slice(-1)[0].idexperiencia
+					})
+					console.log(exp)
+					//agregar el mensaje con id de experiencia
+				})
+					console.log(exp)
+					//agregar el mensaje con id de experiencia
 				})
 				
 
@@ -161,7 +186,7 @@ export class ExperienciaComponent implements AfterViewInit{
 		this.mensajeexp.push(ti)
 		this.mensajeexp.push(de)
 		this.actexpEvent.emit(this.mensajeexp)
-		//console.log(this.mensajeexp)
+		console.log(this.mensajeexp)
 		this.modalService.dismissAll();
 	
 	}

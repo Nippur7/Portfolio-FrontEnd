@@ -78,14 +78,16 @@ export class SkillComponent {
 
 	public editSkill(habi : skill){
 		//console.log(habi)
-		this.serviceHttp.guardarSkill(habi);
-		this.serviceHttp.getSkills(habi.iduser)
-		.subscribe(resp =>{
-			console.log(resp)
-			habi.idskill = resp.slice(-1)[0].idskill
-			this.messageEvent.emit(habi);		
-			this.modalService.dismissAll();
+		this.serviceHttp.guardarSkill(habi).then(()=>{
+			this.serviceHttp.getSkills(habi.iduser)
+				.subscribe(resp =>{
+					console.log(resp)
+					habi.idskill = resp.slice(-1)[0].idskill
+					this.messageEvent.emit(habi);		
+					this.modalService.dismissAll();
 		})
+		})
+		
 		
 		
 

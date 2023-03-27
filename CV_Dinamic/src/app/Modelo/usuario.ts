@@ -1,11 +1,11 @@
 export class Usuario{
-    idusuario: number = 0;
-    apellido: String = '';
-    nombre: String = '';
-    email: String = '';
-    password: String = '';
-    ingreso: String = '';
-    aboutme: String = '';
-    picture: String = '';
+    idusuario: number = -1;
+    apellido: String = new String;
+    nombre: String = new String;;
+    email: String = new String;;
+    password: String = new String;;
+    ingreso: String = new String;;
+    aboutme: String = new String;;
+    picture: String = new String;;
 
 }

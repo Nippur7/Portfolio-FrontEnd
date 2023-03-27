@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angul
 import { Usuario } from '../Modelo/usuario';
 import { ToastrService } from 'ngx-toastr';
 import { catchError } from 'rxjs/operators';
-import { throwError as observableThrowError } from 'rxjs';
+import { lastValueFrom, throwError as observableThrowError } from 'rxjs';
 import { experiencia } from '../Modelo/experiencia';
 import { detalle } from '../Modelo/detalle';
 import { Ctipo } from '../Modelo/tipo';
@@ -24,7 +24,10 @@ export class ServicehttpService {
   Url='http://localhost:8081';
   //Url='https://cv-argprog4-nippur7.koyeb.app'
 
+  
   //Métodos para Usuario
+
+
    public getUsuarios(){
     return this.http.get<Usuario[]>(this.Url+"/usuario")
   }
@@ -42,6 +45,7 @@ export class ServicehttpService {
 
   public editarUsuario(user:Usuario, file : File){
     const formData = new FormData();
+    var response : HttpErrorResponse;
     //console.log(user.email);
     //console.log(file.name);
     formData.append('userJson', JSON.stringify(user));
@@ -50,15 +54,21 @@ export class ServicehttpService {
     //  console.log(item);
     //})
     // console.log(formData.get('userJson'));
-    this.http.post<HttpErrorResponse>(this.Url+"/usuario/editar", formData,
-    // {
-    //   headers: { 'Content-Type': 'multipart/form-data' }
-    // }
-      )
-      //.pipe(catchError(this.errorHandler)) 
-        .subscribe(() =>{    
-        },error => {this.errorHandler(error)
-                  })
+
+    return lastValueFrom(this.http.post<HttpErrorResponse>(this.Url+"/usuario/editar", formData)) .then((resp) =>{ if (resp.status === 200){
+      } },error => {this.errorHandler(error) })
+
+    // this.http.post<HttpErrorResponse>(this.Url+"/usuario/editar", formData)
+       
+        // .subscribe(() =>{  
+        //   //if (resp.status === 200){
+        
+            
+        //   //}
+        // },error => {this.errorHandler(error)
+        //           })
+
+        
   }
 
   public traerImagen(filename : String) :string{
@@ -80,10 +90,25 @@ export class ServicehttpService {
   }
 
   public guardarExperiencia(exp:experiencia){
-    this.http.post<HttpErrorResponse>(this.Url+"/experiencia/agregar", exp)
-    .subscribe(() =>{    
-    },error => {this.errorHandler(error)
-              })
+  //   this.http.post<HttpErrorResponse>(this.Url+"/experiencia/agregar", exp)
+  //   .subscribe(() =>{    
+  //   },error => {this.errorHandler(error)
+  //             })
+  return lastValueFrom(this.http.post<HttpErrorResponse>(this.Url+"/experiencia/agregar", exp)) .then((resp) =>{ if (resp.status === 200){
+  } },error => {this.errorHandler(error) })
+
+  }
+
+  public eliminarExp(idexp : number){
+    // this.http.delete<HttpErrorResponse>(this.Url+"/experiencia/borrar/"+idexp)
+    // //probar devolver un valor, para cerciorarse correcto
+    // .subscribe(() =>{    
+    // },error => {this.errorHandler(error)
+    //           console.log(error)
+    //           })
+   return lastValueFrom(this.http.delete<HttpErrorResponse>(this.Url+"/experiencia/borrar/"+idexp)) .then((resp) =>{ if (resp.status === 200){
+              } },error => {this.errorHandler(error) })
+
   }
   
   //Método para Detalle
@@ -102,6 +127,15 @@ export class ServicehttpService {
 
   public obtenerDetalles(idu:number){
     return this.http.get<detalle[]>(this.Url+"/detalle/usuario/"+idu)
+  }
+
+  public eliminarDet(idexp : number){
+    this.http.delete<HttpErrorResponse>(this.Url+"/detalle/borrar/"+idexp)
+    .subscribe(() =>{    
+    },error => {this.errorHandler(error)
+              console.log(error)
+              })
+
   }
 
   //Método para Tipo
@@ -132,11 +166,14 @@ export class ServicehttpService {
   }
 
   public guardarSkill(sk : skill){
-    this.http.post<HttpErrorResponse>(this.Url+"/skill/agregar",sk)
-    .subscribe(() =>{    
-    },error => {this.errorHandler(error)
-              console.log(error)
-              })
+    // this.http.post<HttpErrorResponse>(this.Url+"/skill/agregar",sk)
+    // .subscribe(() =>{    
+    // },error => {this.errorHandler(error)
+    //           console.log(error)
+    //           })
+   return lastValueFrom(this.http.post<HttpErrorResponse>(this.Url+"/skill/agregar",sk)) .then((resp) =>{ if (resp.status === 200){
+} },error => {this.errorHandler(error) })
+
   }
 
   public eliminarSkill(ids: number){
@@ -163,12 +200,13 @@ export class ServicehttpService {
   }
 
   public guardarProyecto(pr : proyecto){
-    this.http.post<HttpErrorResponse>(this.Url+"/proyecto/agregar", pr)
-    .subscribe(() =>{    
-    },error => {this.errorHandler(error)
-              console.log(error)
-              })
-              
+    // this.http.post<HttpErrorResponse>(this.Url+"/proyecto/agregar", pr)
+    // .subscribe(() =>{    
+    // },error => {this.errorHandler(error)
+    //           console.log(error)
+    //           })
+              return lastValueFrom(this.http.post<HttpErrorResponse>(this.Url+"/proyecto/agregar", pr)) .then((resp) =>{ if (resp.status === 200){
+              } },error => {this.errorHandler(error) })
   }
 
   public eliminarProy(id: number){
