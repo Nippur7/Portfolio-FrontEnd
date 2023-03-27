@@ -1,0 +1,50 @@
+i {
+    font-size: 1em;
+    transition: .4s;
+  }
+
+  main i:hover{  
+    color: rgb(84, 219, 95);
+    transform: scale(1.2);
+  }
+  
+
+.fa-pen {
+    font-size: 1em;
+    transition: all 1s ease;
+    margin-right: 2px;
+    
+    &:hover{    
+      position: relative;
+      color: rgb(84, 219, 95);
+      transform: scale(1.2);
+      
+  
+    }
+  }
+  
+  .fa-trash{
+    font-size: 1em;
+    transition: all 1s ease;
+    margin-left:  2px;
+    &:hover{    
+      position: relative;
+      color: rgb(84, 219, 95);
+      transform: scale(1.2);
+      
+  
+    }
+  }
+  
+  .fa-plus{
+    font-size: 1em;
+    transition: all 1s ease;
+    margin-left:  2px;
+    &:hover{    
+      position: relative;
+      color: rgb(84, 219, 95);
+      transform: scale(1.2);
+      
+  
+    }
+  }

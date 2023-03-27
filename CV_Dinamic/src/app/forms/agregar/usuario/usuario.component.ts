@@ -5,9 +5,10 @@ import { Usuario } from '../../../Modelo/usuario';
 
 
 import { ServicehttpService } from 'src/app/service/servicehttp.service';
-import { MasterserviceService } from 'src/app/service/masterservice.service';
+import { IUser, MasterserviceService } from 'src/app/service/masterservice.service';
 import { UploadimageService } from 'src/app/service/uploadimage.service';
 import { contacto } from 'src/app/Modelo/contacto';
+import { concat, forkJoin, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-usuario',
@@ -16,6 +17,7 @@ import { contacto } from 'src/app/Modelo/contacto';
 })
 export class UsuarioComponent implements OnInit {
 	@Input() idcontact! : number;
+	//@Input() user$ : Observable<IUser>;
 	@Output() contactEvent = new EventEmitter<contacto>();
 
   closeResult = '';
@@ -27,6 +29,7 @@ export class UsuarioComponent implements OnInit {
   iduser : number = -1;
   preview: any;
   archivo: any;
+  edited :boolean = false;
   public contactosql : contacto;
   //errorStatus : number =0
   //id_user: number = 0;
@@ -38,6 +41,7 @@ export class UsuarioComponent implements OnInit {
 		) {
 			this.usuario = new Usuario;
 			this.contactosql = new contacto;
+			//this.user$ = this.Mservice.loggingObservable;
 			//this.userForm = new FormGroup({
 		
 			//	idUser: new FormControl(0,[Validators.required]),
@@ -53,26 +57,49 @@ export class UsuarioComponent implements OnInit {
 		
 
 	open(content: any) {
-		this.serviceHttp.obtenerContacto(this.idcontact)
-    .subscribe(datacontact =>{
-      this.contactosql = datacontact;
+		this.edited = false;
+		if (this.idcontact < 0){
+			console.log("Debe ingresar los datos para el contacto..!!");
+			this.contactosql.iduser = this.usuario.idusuario;
+			this.contactosql.email = this.usuario.email;
+			this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+				(result) => {
+					this.closeResult = `Closed with: ${result}`;
+				},
+				(reason) => {
+					this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+				});
+
+		}else{
+			this.serviceHttp.obtenerContacto(this.idcontact)
+    		.subscribe(datacontact =>{
+      			this.contactosql = datacontact;
 		
-		this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-			(result) => {
-				this.closeResult = `Closed with: ${result}`;
-			},
-			(reason) => {
-				this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-			},
-		);
+				this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+				(result) => {
+					this.closeResult = `Closed with: ${result}`;
+				},
+				(reason) => {
+					this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+				});
+
 		//this.userForm.value.idUser = this.usuario?.id
-	})
+			},error=>{
+				console.log(this.idcontact)
+			})
+		}
 	}
 
 	ngOnInit(){		
 		this.Mservice.loggingObservable.subscribe(datos=>{
 		this.usuario = datos.userSql;		
-		})
+		},error=>{
+			console.log(error)
+
+		});
+		
+		//this.user$ = this.Mservice.loggingObservable;
+		// this.usuario = this
 	}
 
 	private getDismissReason(reason: any): string {
@@ -85,12 +112,47 @@ export class UsuarioComponent implements OnInit {
 		}
 	}
 
-	public editUsuario(data: any, image: File, con:contacto){
-		this.serviceHttp.editarUsuario(data, image);
-		this.serviceHttp.guardarPuesto(con);
-		this.contactEvent.emit(con)
-		this.modalService.dismissAll();
+	public editUsuario(data: Usuario, image: File, con:contacto){
+		if(data.picture.length ===0){
+			console.log(data.picture)
+			
+		}else{
+			if (!this.edited){
+				console.log("no se edito la imagen")
+			}
+		}
+		if(con.iduser < 0){
+								
+			this.serviceHttp.editarUsuario(data, image).then(() => {
 
+					
+			this.serviceHttp.getUsuarioEmail(data.email)
+			.subscribe(u =>{
+				this.usuario.idusuario = u;
+				con.iduser = u;
+				console.log(u)
+				this.serviceHttp.guardarPuesto(con);
+				this.contactEvent.emit(con)
+				// this.Mservice.loggingObservableData = {userFireb: '', logging: true, userSql: this.dataSql};
+				this.serviceHttp.getUsuarioId(u)
+						        .subscribe(data=>{
+                      this.Mservice.loggingObservableData = {userFireb: '', logging: true, userSql: data};
+                      
+						        },error=>{
+                      console.log(error)
+                      console.log("El usuario no existe en la BD, desea crearlo?")
+                    })
+				this.modalService.dismissAll();
+			})
+		})		
+
+		}else{
+			this.serviceHttp.editarUsuario(data, image);
+			this.serviceHttp.guardarPuesto(con);
+			this.contactEvent.emit(con)
+			this.modalService.dismissAll();
+		}
+		
 	}
 
 	public convertirFile(event: any) :any {
@@ -103,7 +165,7 @@ export class UsuarioComponent implements OnInit {
 			this.usuario.picture = this.archivo.name;
 			//console.log(this.archivo)
 		})
-		//console.log(this.preview)
+		this.edited = true;
 	}
 
 }

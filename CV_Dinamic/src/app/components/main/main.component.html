@@ -23,7 +23,7 @@
     
 
     
-    <title>{{dataSql.nombre}} | Personal Portfolio</title>
+    <title *ngIf="dataSql.idusuario >= 0">{{dataSql.nombre}} | Personal Portfolio</title>
 
   </head>
 
@@ -47,14 +47,25 @@
             </ul>
 
         </nav>
-        <div class="welcome">
+        <div *ngIf="dataSql.idusuario >= 0" class="welcome">
             <h1>{{dataSql.nombre}} {{dataSql.apellido}}</h1>
             <h2>{{contact.puesto}}</h2>
         </div>
     </header>
 <body>
-    <main>
+    <main *ngIf="dataSql.idusuario < 0">
         <section class="informacion">
+            <div>
+                <h2>Ingrese los datos para el nuevo usuario</h2>
+            </div>
+            <div>
+                <app-usuario [idcontact]="-1" (contactEvent)="actualizarUsuario($event)" ></app-usuario>
+            </div>
+        </section>
+    </main>
+    <main *ngIf="dataSql.idusuario >= 0">       
+        
+        <section  class="informacion">
             <div class="descripcion">
                 
                 <img src="http://localhost:8081/usuario/imagen/{{dataSql.picture}}" alt="Imagen"
@@ -77,20 +88,35 @@
                 <app-usuario *ngIf="loggeado" [idcontact]="contact.idactividad" (contactEvent)="actualizarUsuario($event)" ></app-usuario>
             </div>
         </section>
+        <section *ngIf="nuevo" class="contenedor">
+            <div *ngFor="let tipos of tipoSql">
+                <div >
+                    <h2>{{tipos.descripcion}}</h2>                
+                </div>
+                <div>
+                    <button *ngIf="loggeado" class="btn btn-outline-primary" (click)="agregarExp(tipos.descripcion)">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                    <app-experiencia [message]="data" (actexpEvent)="agregarExperiencia($event)"></app-experiencia>
+                </div>
+            </div>
+            
+        </section>
         <section *ngFor="let tipo of aux ; let ii = index" class="contenedor">
             <div *ngIf="dict.get(tipo)" class="contenedor__barraTitulo">
                 <h2>{{tipo}}</h2>
                
-            </div>
-            <div>
-                <button *ngIf="loggeado" class="btn btn-outline-primary" (click)="agregarExp(tipo)">
-                    <i class="fa-solid fa-plus"></i>
-                </button>
-                <app-experiencia [message]="data" (actexpEvent)="agregarExperiencia($event)"></app-experiencia>
+            
+                <div>
+                    <button *ngIf="loggeado" class="btn btn-outline-primary" (click)="agregarExp(tipo)">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                    <app-experiencia [message]="data" (actexpEvent)="agregarExperiencia($event)"></app-experiencia>
+                </div>
             </div>
             <div *ngIf="dict.get(tipo)" >
             <div *ngFor="let exp of dict.get(tipo); let i = index" class="contenedor__child">
-                <img src="./assets/icons/demisa.png" alt="Demisa">
+                <img src="./assets/icons/maleta.png" alt="Iconos">
                 <div *ngIf="exp.detexp" class="descripcionPuesto">
                     <h3>{{exp.detexp.puesto}}</h3>
                     <h4 class="descripcionPuesto__info">{{exp.lugar}}</h4>
@@ -125,29 +151,30 @@
                 
                     <!-- <i class="fa-solid fa-plus"></i>                     -->
                     <app-skill *ngIf="loggeado" [idskill]="-1" [iconos]="['fa-solid', 'fa-plus']" (messageEvent)="agregarSkill($event)"></app-skill>
+            </div>    
                 
-                
-            </div>
+            
             <div *ngFor=" let skills of habilidades let i = index" class="skills">
-                <div>
+                <div></div>
+                <div class="descripcion__info">
                     <h3>{{skills.detalle}}</h3>
                     <div class="progress form-group">
                         <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" aria-valuemin="0.0" aria-valuemax="100.0" role="progressbar" [style.width]="skills.porcentaje +'%'">
                              {{skills.detalle}} - {{skills.porcentaje}}%
                         </div>
-                    </div>                    
-                </div>
-                <div *ngIf="loggeado" class="iconosEdicion">
-                    <!-- <i class="fa-solid fa-pen"></i> -->
+                    </div>          
+                </div>  
+                
+            
+                    <div *ngIf="loggeado" class="iconosEdicion">
                     
-                        <!-- <i class="fa-solid fa-pen"></i> -->
-                        <app-skill [idskill]="skills.idskill" [iconos]="['fa-solid', 'fa-pen']" (messageEvent)="actualizarSkill($event,i)"></app-skill>
-                   
-                    
-                    <button class="btn btn-outline-primary" (click)="eliminarSkill(i,skills.idskill)">
+                <!-- <button>                         -->
+                        <app-skill [idskill]="skills.idskill" [iconos]="['fa-solid', 'fa-pen']" (messageEvent)="actualizarSkill($event,i)"></app-skill>                   
+                <!-- </button>                     -->
+                        <button class="btn btn-outline-primary" (click)="eliminarSkill(i,skills.idskill)">
                         <i class="fa-solid fa-trash"></i>
-                    </button>
-                </div>
+                        </button>
+                    </div>
                 
             </div>
             
@@ -163,7 +190,7 @@
                 </div>
             </div>
             <div *ngFor="let proyecto of proy let j = index" class="contenedor__child">
-                <img src="./assets/icons/dinero-05.gif" alt="Dólar Oficial Vs Dólar Blue">
+                <img src="./assets/icons/meta.png" alt="Dólar Oficial Vs Dólar Blue">
                 <div class="descripcionPuesto">
                     <h3><a href="{{proyecto.link}}" target="_blank">
                         {{proyecto.titulo}}

@@ -42,6 +42,7 @@ public proy : proyecto[] = [];
 public contact : contacto = new contacto;
 public picture : string = '';
 public data :number[] = [];
+public nuevo : boolean = true;
 
 
 @Output()
@@ -94,11 +95,19 @@ public datauserlog$: Observable<IUser>;
                     this.tipoSql.push(data)
                   })
 
-                  for (var i=0;i<this.tipoSql.length;i++){
-                    for (var ii=0;ii<this.experienciaSql.length;ii++){
-                       if (this.tipoSql[i].idtipo === this.experienciaSql[ii].tipo){
-                        this.dict.add(this.tipoSql[i].descripcion,this.experienciaSql[ii])
-                       
+                  
+                        // this.nuevo = false;
+                        if (this.experienciaSql.length === 0){
+                          console.log(this.experienciaSql)
+                          this.nuevo = true;
+                        }else{
+                          this.nuevo = false;
+                          for (var i=0;i<this.tipoSql.length;i++){
+                            for (var ii=0;ii<this.experienciaSql.length;ii++){
+                               if (this.tipoSql[i].idtipo === this.experienciaSql[ii].tipo){
+                                this.dict.add(this.tipoSql[i].descripcion,this.experienciaSql[ii])
+                        }
+                        //console.log(this.experienciaSql)
                       }
                     }
                   }
@@ -133,7 +142,8 @@ public datauserlog$: Observable<IUser>;
             
 
         }else{      
-          console.log("error atrapado");
+          console.log("error atrapado", exp);
+
         }
    
       })
@@ -150,12 +160,24 @@ public datauserlog$: Observable<IUser>;
         this.httpService.getUsuarioEmail(this.datauser.email)
 					.subscribe(id=>{
 								this.iduser = id;
-								
-					      this.httpService.getUsuarioId(this.iduser)
-						      .subscribe(data=>{
-                    this.Mservice.loggingObservableData = {userFireb: user, logging: true, userSql: data};
-							  
-						      })
+								console.log(this.iduser)
+                if(this.iduser >= 0){
+					        this.httpService.getUsuarioId(this.iduser)
+						        .subscribe(data=>{
+                      this.Mservice.loggingObservableData = {userFireb: user, logging: true, userSql: data};
+                      
+						        },error=>{
+                      console.log(error)
+                      console.log("El usuario no existe en la BD")
+                    })
+                }else{
+                  console.log("El usuario no existe en la BD, desea crearlo?")
+                  this.dataSql = new Usuario;
+                  this.dataSql.email = user.email!;
+                  this.dataSql.idusuario = this.iduser;                  
+                  this.Mservice.loggingObservableData = {userFireb: user, logging: true, userSql: this.dataSql};
+                  console.log(this.dataSql)
+                }
 			
 		      })
         
@@ -195,10 +217,33 @@ public datauserlog$: Observable<IUser>;
   }
 
   public eliminarExp(t: string,index :number){
-    console.log("boton eliminar experiencia" ,index, t)
-    console.log(this.dict.get(t))
-    this.dict.eliminar(t,index)
-    console.log(this.dict.get(t))
+    
+    this.toastr.warning('¿Desea eliminar el ítem?', '¡Clickéame para confirmar! // Cerrar para cancelar',
+    {
+      closeButton: true,
+      newestOnTop: false,
+      progressBar: false,
+      positionClass: 'toast-bottom-full-width'
+
+    })
+    .onTap
+    .pipe(take(1))
+    .subscribe(() => {
+      console.log('Proyecto tipo ', t, " indice ", index);
+      this.httpService.eliminarExp(this.dict.get(t)[index].idexperiencia).then(()=>{
+        this.httpService.eliminarDet(this.dict.get(t)[index].iddetalles)
+        this.dict.eliminar(t,index)
+      })
+      // this.httpService.eliminarDet(this.dict.get(t)[index].iddetalles)
+      // this.dict.eliminar(t,index)
+      
+      
+    });
+    
+    // console.log("boton eliminar experiencia" ,index, t)
+    // console.log(this.dict.get(t))
+    //this.dict.eliminar(t,index)
+    // console.log(this.dict.get(t))
   }
 
   eliminarDetalle(){
@@ -212,12 +257,17 @@ public datauserlog$: Observable<IUser>;
   }
 
   agregarExperiencia($event:any[]){
-    //var ind : number = this.dict.get($event[1].descripcion).length;
-    //console.log("el indice a agregar es ",ind)
-    //console.log($event)
+    
+    
+    
+    var ind : number = this.dict.get($event[1].descripcion).length;
+    console.log("el indice a agregar es ",ind)
+    console.log($event)
     //this.dict.mod($event[1].descripcion,ind,$event)
     $event[0].detexp = $event[2]
     this.dict.add($event[1].descripcion,$event[0])
+    this.nuevo = false;
+    this.aux = Object.keys(this.dict['dictionary'])
     //console.log(this.dict)
 
   }
@@ -253,9 +303,11 @@ public datauserlog$: Observable<IUser>;
   }
 
   public actualizarUsuario($event:contacto){
+    console.log($event)
     this.contact = $event    
     this.datauserlog$.subscribe(datos =>{
           this.dataSql = datos.userSql
+          console.log(this.dataSql.idusuario)
         })
   }
 

@@ -181,7 +181,8 @@ main i:hover{
 }
 
 .descripcion__info {
-  margin: 100px 20px 20px 20px;
+  margin: 10px 20px 20px 20px;
+  width: 90%;
 }
 
 .aboutMe {
@@ -218,12 +219,13 @@ main i:hover{
   display: flex;
   margin: 20px 2%;
   flex-direction: initial;
-  justify-content: space-between;
+  justify-content: normal;
+  align-items: flex-start;
   
 }
 
 .contenedor img {
-  width: 100px;
+  width: 40px;
   object-fit: contain;
   max-height: 100px;
 }
@@ -236,6 +238,7 @@ main i:hover{
 .descripcionPuesto__info {
   display: inline;
   margin: 2%;
+  //width: 80%;
 }
 
 .iconosEdicion {
@@ -253,8 +256,13 @@ main i:hover{
 /* Skills */
 
 .skills {
-  margin: 20px 0;
-  align-items: center;
+  margin: 20px 2;
+  align-items:inherit;
+  display: flex;
+  margin: 20px 2%;
+  flex-direction: initial;
+  justify-content: left;
+  
 }
 
 .container {
@@ -270,6 +278,9 @@ main i:hover{
   color: white;
 }
 
+.progress form-group{
+  width: 75%;
+}
 .python {
   width: 90%;
   background-color: #04AA6D;

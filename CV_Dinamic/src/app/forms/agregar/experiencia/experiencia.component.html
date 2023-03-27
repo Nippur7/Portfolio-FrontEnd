@@ -10,12 +10,20 @@
 	<div class="modal-body" *ngIf="tiposql">
 		<form #experienciaForm = ngForm >
 			<div class="mb-3">
-				<label>
+				<!-- <label>
 					Tipo de Actividad					
 					<input #modelID [(ngModel)]="tiposql.descripcion" type="string" [ngModelOptions]="{standalone: true}">					
-				</label>
+				</label> -->
+
 				<label>
-					Experiencia
+					Tipo de Actividad
+					<select [(ngModel)]="tiposql.descripcion" class="form-control" [ngModelOptions]="{standalone: true}">
+					  <option *ngFor="let tipo of listaTipo" [value]="tipo.descripcion">{{tipo.descripcion}}</option>
+					</select>
+				  </label>
+
+				<label>
+					Lugar / Empresa
 					<input #modelID [(ngModel)]="experienciasql.lugar" type="string" [ngModelOptions]="{standalone: true}">
 				</label>
 				<label>
