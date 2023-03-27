@@ -1,0 +1,25 @@
+[debug] [2023-03-27T01:28:56.016Z] ----------------------------------------------------------------------
+[debug] [2023-03-27T01:28:56.019Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\tonym\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2023-03-27T01:28:56.020Z] CLI Version:   11.22.0
+[debug] [2023-03-27T01:28:56.020Z] Platform:      win32
+[debug] [2023-03-27T01:28:56.020Z] Node Version:  v19.3.0
+[debug] [2023-03-27T01:28:56.020Z] Time:          Sun Mar 26 2023 22:28:56 GMT-0300 (hora estándar de Argentina)
+[debug] [2023-03-27T01:28:56.020Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-03-27T01:28:56.089Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-03-27T01:28:56.090Z] > authorizing via signed-in user (nippur.argento@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  D:\FullStack\Portfolio\Front-End\Portfolio-FrontEnd\CV_Dinamic
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
