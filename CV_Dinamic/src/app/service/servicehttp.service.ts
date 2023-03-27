@@ -22,7 +22,7 @@ export class ServicehttpService {
     private toastr: ToastrService) { }
 
   //Url='http://localhost:8081';
-  Url='https://cv-argprog4-nippur7.koyeb.app'
+  Url='https://cv-argprog4-nippur7.koyeb.app';
 
   
   //Métodos para Usuario
